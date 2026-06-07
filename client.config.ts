@@ -176,7 +176,7 @@ export const config = {
           tags: ['sem glúten'],
           available: true,
           featured: false,
-          image: '',
+          image: '/images/menu/ameixoas.jpg',
         },
         {
           id: 'gambas-clave',

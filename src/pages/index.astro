@@ -27,6 +27,7 @@ import { config } from '../../client.config';
         group={section.group}
         emoji={section.emoji}
         items={section.items}
+        initiallyHidden={section.group !== config.menuGroups[0].id}
       />
     ))}
 

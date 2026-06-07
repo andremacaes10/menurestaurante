@@ -112,7 +112,7 @@ const groupSections = config.menuGroups.map((g) => ({
       el.style.display = el.dataset.group === groupId ? '' : 'none';
     });
 
-    // limpar pesquisa e mostrar todos os items das secções visíveis
+    // limpar pesquisa e mostrar todos os items
     const searchInput = document.getElementById('search-input');
     if (searchInput) searchInput.value = '';
     document.querySelectorAll('.menu-item-card').forEach((c) => {
@@ -120,7 +120,7 @@ const groupSections = config.menuGroups.map((g) => ({
     });
 
     renderSubTabs(groupId);
-    document.getElementById('menu-content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // sem scrollIntoView — não redirecionar o utilizador
   }
 
   // ---- filtra sub-categoria dentro do grupo activo ----
@@ -162,17 +162,26 @@ const groupSections = config.menuGroups.map((g) => ({
     const q = query.toLowerCase().trim();
 
     if (!q) {
-      // sem pesquisa: volta ao estado do grupo activo
-      selectGroup(activeGroup);
+      // Restaurar estado anterior sem scroll nem reconstrução de tabs
+      document.querySelectorAll('.menu-section').forEach((s) => {
+        const el = s;
+        if (el.dataset.group !== activeGroup) {
+          el.style.display = 'none';
+          return;
+        }
+        el.style.display = activeSection === 'all' || el.dataset.section === activeSection ? '' : 'none';
+      });
+      document.querySelectorAll('.menu-item-card').forEach((c) => {
+        c.style.display = '';
+      });
       return;
     }
 
-    // mostrar todas as secções para pesquisa global
+    // Pesquisa: mostrar todas as secções e filtrar items
     document.querySelectorAll('.menu-section').forEach((s) => {
       s.style.display = '';
     });
 
-    // filtrar items
     document.querySelectorAll('.menu-item-card').forEach((card) => {
       const el = card;
       const name = el.dataset.name?.toLowerCase() ?? '';
@@ -180,22 +189,20 @@ const groupSections = config.menuGroups.map((g) => ({
       el.style.display = name.includes(q) || desc.includes(q) ? '' : 'none';
     });
 
-    // esconder secções sem resultados visíveis
+    // Esconder secções sem resultados visíveis
     document.querySelectorAll('.menu-section').forEach((s) => {
       const visible = s.querySelectorAll('.menu-item-card:not([style*="none"])').length > 0;
       s.style.display = visible ? '' : 'none';
     });
   }
 
-  // expor globalmente
+  // Expor globalmente
   window.selectGroup = selectGroup;
   window.filterSection = filterSection;
   window.searchMenu = searchMenu;
 
-  // inicializar com o primeiro grupo
-  document.addEventListener('DOMContentLoaded', () => {
-    selectGroup(activeGroup);
-  });
+  // Inicializar sub-tabs do primeiro grupo (secções já estão visíveis server-side)
+  renderSubTabs(activeGroup);
 </script>
 
 <style>

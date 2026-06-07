@@ -18,13 +18,20 @@ interface MenuSectionProps {
   group: string;
   emoji: string;
   items: MenuItem[];
+  initiallyHidden?: boolean;
 }
 
-const { id, category, group, emoji, items } = Astro.props as MenuSectionProps;
+const { id, category, group, emoji, items, initiallyHidden = false } = Astro.props as MenuSectionProps;
 const currency = config.currency;
 ---
 
-<section class="menu-section px-4 max-w-2xl mx-auto mb-8" data-section={id} data-group={group} id={`section-${id}`}>
+<section
+  class="menu-section px-4 max-w-2xl mx-auto mb-8"
+  data-section={id}
+  data-group={group}
+  id={`section-${id}`}
+  style={initiallyHidden ? 'display:none' : ''}
+>
   <!-- Título da secção -->
   <div class="flex items-center gap-2 mb-4 pt-2">
     <span class="text-2xl">{emoji}</span>
