@@ -60,6 +60,12 @@ export const config = {
       emoji: '☕',
       description: 'Torradas, Croissants e Menu Kids',
     },
+    {
+      id: 'bebidas',
+      label: 'Bebidas',
+      emoji: '🍺',
+      description: 'Cervejas, Sangrias e mais',
+    },
   ],
 
   // --- EMENTA ---
@@ -267,6 +273,16 @@ export const config = {
           image: '/images/menu/trinchadinha.png',
         },
         {
+          id: 'bao-camarao',
+          name: 'Bão de Camarão',
+          description: '',
+          price: 0.00,
+          tags: [],
+          available: true,
+          featured: false,
+          image: '/images/menu/baocamarao.png',
+        },
+        {
           id: 'francesinha-normal-clave',
           name: 'Francesinha Normal ó Clave',
           description: 'Queijo, Fiambre, Chouriço, Ketchup, Maionese, Coberto com Queijo, Molho Especial e Batata frita',
@@ -374,7 +390,7 @@ export const config = {
           tags: [],
           available: true,
           featured: false,
-          image: '',
+          image: '/images/menu/prego_pao.png',
         },
         {
           id: 'prego-pao-cogumelos',
@@ -644,7 +660,7 @@ export const config = {
           tags: [],
           available: true,
           featured: true,
-          image: '',
+          image: '/images/menu/tosta_a_clave.png',
         },
         {
           id: 'tosta-frango',
@@ -961,6 +977,34 @@ export const config = {
           available: true,
           featured: false,
           image: '',
+        },
+      ],
+    },
+    {
+      id: 'bebidas',
+      category: 'Bebidas',
+      group: 'bebidas',
+      emoji: '🍺',
+      items: [
+        {
+          id: 'fino',
+          name: 'Fino',
+          description: '',
+          price: 2.20,
+          tags: ['vegan', 'sem glúten'],
+          available: true,
+          featured: false,
+          image: '/images/menu/finos.png',
+        },
+        {
+          id: 'sangria-maracuja',
+          name: 'Sangria de Maracujá (2L)',
+          description: '',
+          price: 24.00,
+          tags: ['vegan'],
+          available: true,
+          featured: true,
+          image: '/images/menu/sangriamaracuja.png',
         },
       ],
     },
