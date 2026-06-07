@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { config } from '../../client.config';
+---
+
+<Layout title={`QR Code — ${config.name}`} description="Gera e imprime o QR code da ementa digital.">
+  <div class="min-h-screen bg-cream flex flex-col items-center justify-center p-8">
+    <div class="bg-white rounded-2xl shadow-lg p-8 max-w-sm w-full text-center">
+      <h1 class="font-display text-2xl font-bold text-dark mb-2">{config.name}</h1>
+      <p class="text-gray-500 text-sm mb-6">Ementa Digital — scanneia para ver o menu</p>
+
+      <!-- QR Code gerado via API pública (sem dependência JS) -->
+      <div class="flex justify-center mb-6">
+        <div id="qr-container" class="w-52 h-52 bg-gray-100 rounded-xl flex items-center justify-center">
+          <span class="text-gray-400 text-sm">A gerar...</span>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-400 mb-4">
+        URL da ementa: <span id="menu-url" class="font-mono text-brand-700 break-all"></span>
+      </p>
+
+      <button
+        onclick="window.print()"
+        class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-3 rounded-xl transition-colors"
+      >
+        🖨️ Imprimir QR Code
+      </button>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const url = window.location.origin + '/';
+  const menuUrlEl = document.getElementById('menu-url');
+  if (menuUrlEl) menuUrlEl.textContent = url;
+
+  // Gerar QR code via API do Google Charts (simples, sem JS extra)
+  const encodedUrl = encodeURIComponent(url);
+  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodedUrl}&margin=10&color=1a1008`;
+
+  const container = document.getElementById('qr-container');
+  if (container) {
+    const img = document.createElement('img');
+    img.src = qrApiUrl;
+    img.alt = 'QR Code da ementa';
+    img.className = 'w-52 h-52 rounded-xl';
+    img.width = 208;
+    img.height = 208;
+    container.innerHTML = '';
+    container.appendChild(img);
+  }
+</script>
+
+<style>
+  @media print {
+    body { background: white; }
+    button { display: none; }
+    .bg-cream { background: white; }
+  }
+</style>

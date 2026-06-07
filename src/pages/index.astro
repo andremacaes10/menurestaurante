@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import InfoBar from '../components/InfoBar.astro';
+import CategoryTabs from '../components/CategoryTabs.astro';
+import MenuSection from '../components/MenuSection.astro';
+import Footer from '../components/Footer.astro';
+import { config } from '../../client.config';
+---
+
+<Layout title={config.seo.title} description={config.seo.description}>
+  <!-- Topo fixo: header do restaurante -->
+  <Header />
+
+  <!-- Informações rápidas: horários e morada -->
+  <InfoBar />
+
+  <!-- Filtros de categoria + pesquisa (sticky) -->
+  <CategoryTabs />
+
+  <!-- Conteúdo principal da ementa -->
+  <main id="menu-content" class="pb-8">
+    {config.menu.map((section) => (
+      <MenuSection
+        id={section.id}
+        category={section.category}
+        group={section.group}
+        emoji={section.emoji}
+        items={section.items}
+      />
+    ))}
+
+    <!-- Nenhum resultado (pesquisa) -->
+    <div id="no-results" class="hidden text-center py-12 text-gray-400">
+      <div class="text-4xl mb-2">🔍</div>
+      <p class="text-sm">Nenhum prato encontrado</p>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Observar se todas as secções estão escondidas para mostrar "sem resultados"
+  const observer = new MutationObserver(() => {
+    const sections = document.querySelectorAll('.menu-section');
+    const allHidden = Array.from(sections).every(
+      (s) => (s as HTMLElement).style.display === 'none'
+    );
+    const noResults = document.getElementById('no-results');
+    if (noResults) {
+      noResults.style.display = allHidden ? 'block' : 'none';
+    }
+  });
+
+  document.querySelectorAll('.menu-section').forEach((section) => {
+    observer.observe(section, { attributes: true, attributeFilter: ['style'] });
+  });
+</script>

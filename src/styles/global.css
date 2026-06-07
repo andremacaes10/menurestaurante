@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream text-dark antialiased;
+  }
+
+  /* Prevent iOS zoom on inputs */
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+@layer components {
+  .tag-badge {
+    @apply inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full;
+  }
+
+  .tag-vegan {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .tag-vegetariano {
+    @apply bg-emerald-100 text-emerald-800;
+  }
+
+  .tag-sem-gluten {
+    @apply bg-amber-100 text-amber-800;
+  }
+
+  .tag-picante {
+    @apply bg-red-100 text-red-800;
+  }
+
+  .category-tab {
+    @apply whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer;
+  }
+
+  .category-tab-active {
+    @apply bg-brand-600 text-white shadow-sm;
+  }
+
+  .category-tab-inactive {
+    @apply bg-white text-gray-600 border border-gray-200 hover:border-brand-400 hover:text-brand-700;
+  }
+}
+
+/* Sticky category bar shadow */
+.sticky-bar-shadow {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* Card hover */
+.menu-card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.menu-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  transform: translateY(-1px);
+}
