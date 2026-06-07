@@ -14,7 +14,7 @@ export const config = {
     whatsapp: '',
     address: 'Av. Infante Dom Henrique 76, 4480-670 Vila do Conde',
     city: 'Vila do Conde',
-    googleMapsUrl: 'https://maps.google.com/?q=Av.+Infante+Dom+Henrique+76+4480-670+Vila+do+Conde',
+    googleMapsUrl: 'https://www.google.com/maps/place/Clave+Sol/@41.3592514,-8.7563724,52m/data=!3m1!1e3!4m15!1m8!3m7!1s0xd2446a5a63fc59d:0x43cc1563daece978!2sAv.+Infante+Dom+Henrique+76,+4480-670+Vila+do+Conde!3b1!8m2!3d41.359359!4d-8.7561226!16s%2Fg%2F11pw1z6d8t!3m5!1s0xd2446a5a64013a1:0xd4f503a26dbf3a0b!8m2!3d41.3593204!4d-8.7561059!16s%2Fg%2F1q629dm47?entry=ttu&g_ep=EgoyMDI2MDYwMS4wIKXMDSoASAFQAw%3D%3D',
   },
 
   // --- HORÁRIOS ---
