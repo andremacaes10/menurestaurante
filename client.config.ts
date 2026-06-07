@@ -138,7 +138,7 @@ export const config = {
           tags: [],
           available: true,
           featured: false,
-          image: '',
+          image: '/images/menu/ovosrotos.png',
         },
         {
           id: 'ovos-rotos-especiais',
@@ -176,7 +176,7 @@ export const config = {
           tags: ['sem glúten'],
           available: true,
           featured: false,
-          image: '/images/menu/ameixoas.jpg',
+          image: '/images/menu/ameijoa.png',
         },
         {
           id: 'gambas-clave',
@@ -206,7 +206,7 @@ export const config = {
           tags: ['sem glúten'],
           available: true,
           featured: false,
-          image: '',
+          image: '/images/menu/percebes.png',
         },
         {
           id: 'camarao-costa',
@@ -246,7 +246,7 @@ export const config = {
           tags: ['sem glúten'],
           available: true,
           featured: true,
-          image: '',
+          image: '/images/menu/mistomarisco.png',
         },
       ],
     },
@@ -264,7 +264,7 @@ export const config = {
           tags: [],
           available: true,
           featured: false,
-          image: '',
+          image: '/images/menu/trinchadinha.png',
         },
         {
           id: 'francesinha-normal-clave',
@@ -480,7 +480,7 @@ export const config = {
           tags: [],
           available: true,
           featured: false,
-          image: '',
+          image: '/images/menu/ppburger.png',
         },
         {
           id: 'hamburger-chef',
@@ -538,7 +538,7 @@ export const config = {
           tags: ['sem glúten'],
           available: true,
           featured: true,
-          image: '',
+          image: '/images/menu/salada.png',
         },
         {
           id: 'salada-frango',
@@ -548,7 +548,7 @@ export const config = {
           tags: [],
           available: true,
           featured: false,
-          image: '',
+          image: '/images/menu/bowlfrango.png',
         },
         {
           id: 'salada-atum',
@@ -568,7 +568,7 @@ export const config = {
           tags: ['sem glúten'],
           available: true,
           featured: false,
-          image: '',
+          image: '/images/menu/bowlsalmao.png',
         },
       ],
     },
