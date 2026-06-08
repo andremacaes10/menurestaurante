@@ -1,8 +1,9 @@
+/* @import must come before @tailwind directives */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
 
 @layer base {
   html {
@@ -52,19 +53,40 @@
   .category-tab-inactive {
     @apply bg-white text-gray-600 border border-gray-200 hover:border-brand-400 hover:text-brand-700;
   }
+
+  /* Price badge — amber pill */
+  .price-badge {
+    @apply inline-block bg-brand-600 text-white text-sm font-bold px-3 py-1 rounded-full leading-none whitespace-nowrap flex-shrink-0;
+  }
 }
 
-/* Sticky category bar shadow */
+/* ── Sticky category bar shadow ── */
 .sticky-bar-shadow {
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
-/* Card hover */
+/* ── Card hover lift ── */
 .menu-card {
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .menu-card:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
-  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+/* ── Section fade-in animation ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-enter {
+  animation: fadeInUp 0.28s ease forwards;
 }

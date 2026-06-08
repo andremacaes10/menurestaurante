@@ -2,24 +2,38 @@
 import { config } from '../../client.config';
 ---
 
-<header class="bg-dark text-cream py-5 px-4 text-center">
-  <!-- Logo / Nome -->
-  <div class="flex flex-col items-center gap-2">
-    <div class="w-16 h-16 rounded-full bg-brand-600 flex items-center justify-center text-2xl font-display font-bold text-white shadow-lg">
+<header
+  class="relative overflow-hidden text-cream px-4 pt-8 pb-12 text-center"
+  style="background: linear-gradient(150deg, #2a1a08 0%, #1a1008 60%, #0d0804 100%);"
+>
+  <!-- Ambient warm glow -->
+  <div
+    class="absolute inset-0 pointer-events-none"
+    style="background: radial-gradient(ellipse 90% 55% at 50% -5%, rgba(212,130,30,0.28) 0%, transparent 70%);"
+  ></div>
+
+  <!-- Content -->
+  <div class="relative z-10 flex flex-col items-center gap-2">
+    <!-- Avatar with gold ring -->
+    <div
+      class="w-20 h-20 rounded-full flex items-center justify-center text-3xl font-display font-bold text-white mb-1"
+      style="background: linear-gradient(135deg, #e39d38 0%, #b96615 100%); box-shadow: 0 0 0 3px rgba(227,157,56,0.45), 0 0 0 6px rgba(227,157,56,0.15), 0 12px 32px rgba(0,0,0,0.5);"
+    >
       {config.name.charAt(0)}
     </div>
-    <h1 class="font-display text-2xl font-bold text-cream tracking-wide">
+
+    <h1 class="font-display text-3xl font-bold text-cream tracking-wide" style="text-shadow: 0 2px 12px rgba(0,0,0,0.4);">
       {config.name}
     </h1>
-    <p class="text-brand-300 text-sm max-w-xs">{config.tagline}</p>
+    <p class="text-brand-300 text-sm tracking-wide">{config.tagline}</p>
   </div>
 
   <!-- Botões de contacto rápido -->
-  <div class="flex justify-center gap-3 mt-4">
+  <div class="relative z-10 flex justify-center gap-3 mt-5">
     {config.contact.phone && (
       <a
         href={`tel:${config.contact.phone.replace(/\s/g, '')}`}
-        class="flex items-center gap-1.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-medium px-4 py-2 rounded-full transition-colors"
+        class="flex items-center gap-1.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-colors shadow-lg"
         aria-label="Ligar"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -33,7 +47,7 @@ import { config } from '../../client.config';
         href={`https://wa.me/${config.contact.whatsapp}`}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-1.5 bg-green-600 hover:bg-green-500 text-white text-sm font-medium px-4 py-2 rounded-full transition-colors"
+        class="flex items-center gap-1.5 bg-green-600 hover:bg-green-500 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-colors shadow-lg"
         aria-label="WhatsApp"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -42,5 +56,12 @@ import { config } from '../../client.config';
         WhatsApp
       </a>
     )}
+  </div>
+
+  <!-- Wave divider — cream fill matches page background -->
+  <div class="absolute bottom-0 left-0 right-0 leading-none pointer-events-none">
+    <svg viewBox="0 0 1200 32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="w-full h-8 block">
+      <path d="M0,16 C200,32 400,0 600,16 C800,32 1000,0 1200,16 L1200,32 L0,32 Z" fill="#fdf8f0"/>
+    </svg>
   </div>
 </header>

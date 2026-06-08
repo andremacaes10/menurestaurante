@@ -106,10 +106,17 @@ const groupSections = config.menuGroups.map((g) => ({
       }
     });
 
-    // mostrar só secções deste grupo, esconder as restantes
+    // mostrar só secções deste grupo com fade-in, esconder as restantes
     document.querySelectorAll('.menu-section').forEach((s) => {
       const el = s;
-      el.style.display = el.dataset.group === groupId ? '' : 'none';
+      if (el.dataset.group === groupId) {
+        el.style.display = '';
+        el.classList.remove('section-enter');
+        void el.offsetWidth; // força reflow para reiniciar animação
+        el.classList.add('section-enter');
+      } else {
+        el.style.display = 'none';
+      }
     });
 
     // limpar pesquisa e mostrar todos os items
@@ -139,14 +146,22 @@ const groupSections = config.menuGroups.map((g) => ({
       }
     });
 
-    // mostrar/esconder secções dentro do grupo
+    // mostrar/esconder secções dentro do grupo com fade-in
     document.querySelectorAll('.menu-section').forEach((s) => {
       const el = s;
       if (el.dataset.group !== activeGroup) {
         el.style.display = 'none';
         return;
       }
-      el.style.display = sectionId === 'all' || el.dataset.section === sectionId ? '' : 'none';
+      const shouldShow = sectionId === 'all' || el.dataset.section === sectionId;
+      if (shouldShow) {
+        el.style.display = '';
+        el.classList.remove('section-enter');
+        void el.offsetWidth;
+        el.classList.add('section-enter');
+      } else {
+        el.style.display = 'none';
+      }
     });
 
     // limpar pesquisa
