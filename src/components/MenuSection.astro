@@ -26,34 +26,36 @@ const currency = config.currency;
 ---
 
 <section
-  class="menu-section px-4 max-w-2xl mx-auto mb-8"
+  class="menu-section px-4 max-w-2xl mx-auto mb-10"
   data-section={id}
   data-group={group}
   id={`section-${id}`}
   style={initiallyHidden ? 'display:none' : ''}
 >
-  <!-- Título da secção -->
-  <div class="flex items-center gap-2 mb-4 pt-2">
-    <span class="text-2xl">{emoji}</span>
-    <h2 class="font-display text-xl font-bold text-dark">{category}</h2>
-    <div class="flex-1 h-px" style="background: linear-gradient(to right, rgba(212,130,30,0.6), transparent);"></div>
+  <!-- Cabeçalho da secção — estilo editorial -->
+  <div class="flex items-end gap-3 mb-5 pt-4">
+    <h2 class="font-display text-2xl font-bold text-ink leading-none">{category}</h2>
+    <span class="text-lg leading-none mb-0.5 opacity-70">{emoji}</span>
+    <div class="flex-1 h-px self-center" style="background: linear-gradient(to right, rgba(196,133,38,0.35), transparent);"></div>
   </div>
 
-  <!-- Grid de pratos -->
+  <!-- Itens -->
   <div class="flex flex-col gap-3">
     {items.map((item) => (
       <div
-        class={`menu-item-card menu-card bg-white rounded-2xl overflow-hidden shadow-sm ${!item.available ? 'opacity-50' : ''}`}
+        class={`menu-item-card menu-card bg-white rounded-2xl overflow-hidden ${!item.available ? 'opacity-50' : ''}`}
+        style="box-shadow: 0 1px 4px rgba(0,0,0,0.07);"
         data-name={item.name.toLowerCase()}
         data-desc={item.description.toLowerCase()}
       >
-        <!-- Foto do prato (se existir) — ocupa largura total no topo -->
+        <!-- Foto (se existir) -->
         {item.image && (
           <div class="relative overflow-hidden">
             <img
               src={item.image}
               alt={item.name}
-              class="w-full h-44 object-cover"
+              class="w-full object-cover"
+              style="height: 11rem;"
               loading="lazy"
               width="600"
               height="176"
@@ -63,57 +65,60 @@ const currency = config.currency;
                 <span class="text-white font-semibold text-sm bg-black/60 px-3 py-1 rounded-full">Esgotado</span>
               </div>
             )}
+            {item.featured && (
+              <span
+                class="absolute top-2.5 left-2.5 text-xs font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full"
+                style="background: rgba(12,10,7,0.75); color: rgba(196,133,38,1); backdrop-filter: blur(4px);"
+              >
+                ★ Destaque
+              </span>
+            )}
           </div>
         )}
 
         <!-- Conteúdo -->
-        <div class={`flex items-start justify-between gap-3 p-4 ${!item.image ? 'border-l-4 border-brand-400' : ''}`}>
+        <div class="flex items-start justify-between gap-3 px-4 py-3.5">
           <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-1.5 flex-wrap">
-              <h3 class={`font-semibold text-dark leading-snug ${item.image ? 'text-base' : 'text-sm'}`}>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h3 class="font-display font-semibold text-ink leading-snug" style="font-size: 0.9375rem;">
                 {item.name}
               </h3>
-              {item.featured && (
-                <span class="inline-flex items-center gap-0.5 text-xs font-medium text-brand-700 bg-brand-50 border border-brand-200 px-1.5 py-0.5 rounded-full">
-                  ⭐ Destaque
+              {item.featured && !item.image && (
+                <span
+                  class="inline-flex items-center text-xs font-medium px-1.5 py-0.5 rounded"
+                  style="background: rgba(196,133,38,0.1); color: #a86c20;"
+                >
+                  ★ Destaque
                 </span>
               )}
               {!item.available && !item.image && (
-                <span class="text-xs text-gray-400 italic">Esgotado</span>
+                <span class="text-xs text-stone italic">Esgotado</span>
               )}
             </div>
             {item.description && (
-              <p class="text-gray-500 text-xs mt-1 leading-relaxed">
-                {item.description}
-              </p>
+              <p class="text-stone text-xs mt-1 leading-relaxed">{item.description}</p>
             )}
-            <!-- Tags / alergénios -->
             {item.tags.length > 0 && (
               <div class="flex flex-wrap gap-1 mt-2">
                 {item.tags.map((tag) => {
                   const tagClass =
-                    tag === 'vegan' ? 'tag-vegan' :
+                    tag === 'vegan'       ? 'tag-vegan' :
                     tag === 'vegetariano' ? 'tag-vegetariano' :
-                    tag === 'sem glúten' ? 'tag-sem-gluten' :
-                    tag === 'picante' ? 'tag-picante' : '';
-                  return (
-                    <span class={`tag-badge ${tagClass}`}>
-                      {config.tagLabels[tag] ?? tag}
-                    </span>
-                  );
+                    tag === 'sem glúten'  ? 'tag-sem-gluten' :
+                    tag === 'picante'     ? 'tag-picante' : '';
+                  return <span class={`tag-badge ${tagClass}`}>{config.tagLabels[tag] ?? tag}</span>;
                 })}
               </div>
             )}
           </div>
 
-          <!-- Preço + adicionar ao pedido -->
-          <div class="flex-shrink-0 self-center flex flex-col items-end gap-1.5">
-            <span class="price-badge">
-              {currency}{item.price.toFixed(2)}
-            </span>
+          <!-- Preço + botão -->
+          <div class="flex-shrink-0 self-center flex flex-col items-end gap-2">
+            <span class="price-badge">{currency}{item.price.toFixed(2)}</span>
             {item.available && (
               <button
-                class="w-8 h-8 rounded-full bg-brand-600 hover:bg-brand-500 active:scale-95 text-white font-bold text-xl flex items-center justify-center shadow-md transition-all"
+                class="w-8 h-8 rounded-full text-white font-bold text-lg flex items-center justify-center transition-all active:scale-95"
+                style="background: #a86c20; box-shadow: 0 2px 8px rgba(168,108,32,0.35);"
                 data-cart-id={item.id}
                 data-cart-name={item.name}
                 data-cart-price={item.price.toString()}

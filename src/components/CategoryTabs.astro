@@ -1,7 +1,6 @@
 ---
 import { config } from '../../client.config';
 
-// Pré-calcular as sub-categorias por grupo para passar ao script
 const groupSections = config.menuGroups.map((g) => ({
   id: g.id,
   sections: config.menu
@@ -10,58 +9,58 @@ const groupSections = config.menuGroups.map((g) => ({
 }));
 ---
 
-<!-- ===== NÍVEL 1: grupos principais ===== -->
-<div class="bg-dark pt-3 pb-0 px-4">
-  <div class="flex gap-2 max-w-2xl mx-auto">
+<!-- ===== NÍVEL 1: grupos principais (fundo escuro) ===== -->
+<div class="px-2 pt-1 pb-0" style="background: #0c0a07;">
+  <div class="flex max-w-2xl mx-auto">
     {config.menuGroups.map((group, i) => (
       <button
-        class={`group-tab flex-1 flex flex-col items-center gap-1 pb-3 border-b-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${
+        class={`group-tab flex-1 flex flex-col items-center gap-1 py-3 border-b-2 text-xs font-medium tracking-wide transition-all duration-200 cursor-pointer ${
           i === 0
-            ? 'border-brand-400 text-brand-300'
-            : 'border-transparent text-gray-500 hover:text-gray-300'
+            ? 'border-brand-500 text-brand-300'
+            : 'border-transparent text-stone hover:text-gray-300'
         }`}
         data-group={group.id}
         onclick={`selectGroup('${group.id}')`}
       >
-        <span class="text-xl leading-none">{group.emoji}</span>
-        <span class="text-xs leading-tight text-center">{group.label}</span>
+        <span class="text-lg leading-none">{group.emoji}</span>
+        <span class="leading-tight text-center uppercase tracking-wider" style="font-size: 0.65rem;">{group.label}</span>
       </button>
     ))}
   </div>
 </div>
 
-<!-- ===== NÍVEL 2: sub-categorias (sticky) ===== -->
-<div id="category-bar" class="sticky top-0 z-30 bg-cream sticky-bar-shadow py-3 px-4">
-  <div id="sub-tabs" class="flex gap-2 overflow-x-auto pb-1 scrollbar-none max-w-2xl mx-auto">
-    <!-- preenchido pelo JS ao selecionar grupo -->
+<!-- ===== NÍVEL 2: sub-categorias (sticky, fundo cream) ===== -->
+<div id="category-bar" class="sticky top-0 z-30 bg-cream sticky-bar-shadow border-b border-gray-100">
+  <div id="sub-tabs" class="flex overflow-x-auto scrollbar-none max-w-2xl mx-auto px-4">
+    <!-- preenchido pelo JS -->
   </div>
 </div>
 
 <!-- Barra de pesquisa -->
 <div class="px-4 py-3 max-w-2xl mx-auto">
   <div class="relative">
-    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+    <svg
+      class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-stone pointer-events-none"
       xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-      stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round"
-        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      stroke="currentColor" stroke-width="2.5"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
     </svg>
     <input
       type="search"
       id="search-input"
-      placeholder="Pesquisar prato..."
-      class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm
-             focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent"
+      placeholder="Pesquisar na ementa…"
+      class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm text-ink placeholder-stone
+             focus:outline-none focus:ring-2 focus:ring-brand-400/40 focus:border-brand-400 transition-all"
       oninput="searchMenu(this.value)"
     />
   </div>
 </div>
 
 <script define:vars={{ groupSections }}>
-  let activeGroup = groupSections[0]?.id ?? '';
+  let activeGroup   = groupSections[0]?.id ?? '';
   let activeSection = 'all';
 
-  // ---- renderiza as sub-tabs do grupo activo ----
   function renderSubTabs(groupId) {
     const bar = document.getElementById('sub-tabs');
     if (!bar) return;
@@ -70,7 +69,6 @@ const groupSections = config.menuGroups.map((g) => ({
 
     bar.innerHTML = '';
 
-    // botão "Tudo" para o grupo
     const allBtn = document.createElement('button');
     allBtn.className = 'category-tab category-tab-active';
     allBtn.dataset.category = 'all';
@@ -82,7 +80,7 @@ const groupSections = config.menuGroups.map((g) => ({
       const btn = document.createElement('button');
       btn.className = 'category-tab category-tab-inactive';
       btn.dataset.category = s.id;
-      btn.innerHTML = `<span class="mr-1">${s.emoji}</span>${s.category}`;
+      btn.textContent = s.category;
       btn.onclick = () => filterSection(s.id);
       bar.appendChild(btn);
     });
@@ -90,51 +88,42 @@ const groupSections = config.menuGroups.map((g) => ({
     activeSection = 'all';
   }
 
-  // ---- seleciona grupo principal ----
   function selectGroup(groupId) {
     activeGroup = groupId;
 
-    // atualizar estilo dos group-tabs
     document.querySelectorAll('.group-tab').forEach((tab) => {
       const el = tab;
       if (el.dataset.group === groupId) {
-        el.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-300');
-        el.classList.add('border-brand-400', 'text-brand-300');
+        el.classList.remove('border-transparent', 'text-stone', 'hover:text-gray-300');
+        el.classList.add('border-brand-500', 'text-brand-300');
       } else {
-        el.classList.remove('border-brand-400', 'text-brand-300');
-        el.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-300');
+        el.classList.remove('border-brand-500', 'text-brand-300');
+        el.classList.add('border-transparent', 'text-stone', 'hover:text-gray-300');
       }
     });
 
-    // mostrar só secções deste grupo com fade-in, esconder as restantes
     document.querySelectorAll('.menu-section').forEach((s) => {
       const el = s;
       if (el.dataset.group === groupId) {
         el.style.display = '';
         el.classList.remove('section-enter');
-        void el.offsetWidth; // força reflow para reiniciar animação
+        void el.offsetWidth;
         el.classList.add('section-enter');
       } else {
         el.style.display = 'none';
       }
     });
 
-    // limpar pesquisa e mostrar todos os items
     const searchInput = document.getElementById('search-input');
     if (searchInput) searchInput.value = '';
-    document.querySelectorAll('.menu-item-card').forEach((c) => {
-      c.style.display = '';
-    });
+    document.querySelectorAll('.menu-item-card').forEach((c) => { c.style.display = ''; });
 
     renderSubTabs(groupId);
-    // sem scrollIntoView — não redirecionar o utilizador
   }
 
-  // ---- filtra sub-categoria dentro do grupo activo ----
   function filterSection(sectionId) {
     activeSection = sectionId;
 
-    // estilo das sub-tabs
     document.querySelectorAll('#sub-tabs .category-tab').forEach((tab) => {
       const el = tab;
       if (el.dataset.category === sectionId) {
@@ -146,13 +135,9 @@ const groupSections = config.menuGroups.map((g) => ({
       }
     });
 
-    // mostrar/esconder secções dentro do grupo com fade-in
     document.querySelectorAll('.menu-section').forEach((s) => {
       const el = s;
-      if (el.dataset.group !== activeGroup) {
-        el.style.display = 'none';
-        return;
-      }
+      if (el.dataset.group !== activeGroup) { el.style.display = 'none'; return; }
       const shouldShow = sectionId === 'all' || el.dataset.section === sectionId;
       if (shouldShow) {
         el.style.display = '';
@@ -164,59 +149,40 @@ const groupSections = config.menuGroups.map((g) => ({
       }
     });
 
-    // limpar pesquisa
     const searchInput = document.getElementById('search-input');
     if (searchInput) searchInput.value = '';
-    document.querySelectorAll('.menu-item-card').forEach((c) => {
-      c.style.display = '';
-    });
+    document.querySelectorAll('.menu-item-card').forEach((c) => { c.style.display = ''; });
   }
 
-  // ---- pesquisa global ----
   function searchMenu(query) {
     const q = query.toLowerCase().trim();
-
     if (!q) {
-      // Restaurar estado anterior sem scroll nem reconstrução de tabs
       document.querySelectorAll('.menu-section').forEach((s) => {
         const el = s;
-        if (el.dataset.group !== activeGroup) {
-          el.style.display = 'none';
-          return;
-        }
+        if (el.dataset.group !== activeGroup) { el.style.display = 'none'; return; }
         el.style.display = activeSection === 'all' || el.dataset.section === activeSection ? '' : 'none';
       });
-      document.querySelectorAll('.menu-item-card').forEach((c) => {
-        c.style.display = '';
-      });
+      document.querySelectorAll('.menu-item-card').forEach((c) => { c.style.display = ''; });
       return;
     }
 
-    // Pesquisa: mostrar todas as secções e filtrar items
-    document.querySelectorAll('.menu-section').forEach((s) => {
-      s.style.display = '';
-    });
-
+    document.querySelectorAll('.menu-section').forEach((s) => { s.style.display = ''; });
     document.querySelectorAll('.menu-item-card').forEach((card) => {
       const el = card;
       const name = el.dataset.name?.toLowerCase() ?? '';
       const desc = el.dataset.desc?.toLowerCase() ?? '';
       el.style.display = name.includes(q) || desc.includes(q) ? '' : 'none';
     });
-
-    // Esconder secções sem resultados visíveis
     document.querySelectorAll('.menu-section').forEach((s) => {
       const visible = s.querySelectorAll('.menu-item-card:not([style*="none"])').length > 0;
       s.style.display = visible ? '' : 'none';
     });
   }
 
-  // Expor globalmente
-  window.selectGroup = selectGroup;
+  window.selectGroup   = selectGroup;
   window.filterSection = filterSection;
-  window.searchMenu = searchMenu;
+  window.searchMenu    = searchMenu;
 
-  // Inicializar sub-tabs do primeiro grupo (secções já estão visíveis server-side)
   renderSubTabs(activeGroup);
 </script>
 

@@ -6,68 +6,75 @@ const hasGlovo    = !!platforms.glovo;
 const hasUberEats = !!platforms.uberEats;
 ---
 
-<div class="bg-white border-b border-gray-100 px-4 py-4">
-  <div class="max-w-2xl mx-auto space-y-4">
+<div class="bg-white border-b border-gray-100 px-4 py-5">
+  <div class="max-w-2xl mx-auto">
 
-    <!-- ── Entrega ao Domicílio ── -->
-    <div>
-      <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-        🛵 Entrega ao Domicílio · <span class="font-normal normal-case">{deliveryTime}</span>
-      </p>
-      <div class="flex gap-3">
-        <a
-          href={hasGlovo ? platforms.glovo : undefined}
-          target={hasGlovo ? '_blank' : undefined}
-          rel="noopener noreferrer"
-          class={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm text-white shadow-sm transition-all active:scale-95 ${!hasGlovo ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110'}`}
-          style="background: #00A082;"
-        >
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="10"/><text x="10" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#00A082">G</text></svg>
-          Glovo
-          {!hasGlovo && <span class="text-white/60 text-xs font-normal">· Brevemente</span>}
-        </a>
-        <a
-          href={hasUberEats ? platforms.uberEats : undefined}
-          target={hasUberEats ? '_blank' : undefined}
-          rel="noopener noreferrer"
-          class={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm text-white shadow-sm transition-all active:scale-95 ${!hasUberEats ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110'}`}
-          style="background: #142328;"
-        >
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="10"/><text x="10" y="14" text-anchor="middle" font-size="10" font-weight="bold" fill="#142328">U</text></svg>
-          Uber Eats
-          {!hasUberEats && <span class="text-white/60 text-xs font-normal">· Brevemente</span>}
-        </a>
+    <!-- Cabeçalho da secção -->
+    <p class="text-xs font-sans font-semibold text-stone uppercase tracking-[0.18em] mb-3">
+      Encomendas
+    </p>
+
+    <div class="flex flex-col gap-3">
+
+      <!-- Entrega ao domicílio -->
+      <div>
+        <p class="text-xs text-stone mb-2 flex items-center gap-1.5">
+          <span>🛵</span>
+          <span class="font-medium text-ink">Entrega ao Domicílio</span>
+          <span class="text-stone/70">· {deliveryTime}</span>
+        </p>
+        <div class="flex gap-2">
+          <a
+            href={hasGlovo ? platforms.glovo : undefined}
+            target={hasGlovo ? '_blank' : undefined}
+            rel="noopener noreferrer"
+            class={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all ${!hasGlovo ? 'opacity-40 cursor-not-allowed' : 'active:scale-95'}`}
+            style="background: #00A082;"
+          >
+            Glovo
+            {!hasGlovo && <span class="text-white/60 font-normal text-xs">· Brevemente</span>}
+          </a>
+          <a
+            href={hasUberEats ? platforms.uberEats : undefined}
+            target={hasUberEats ? '_blank' : undefined}
+            rel="noopener noreferrer"
+            class={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all ${!hasUberEats ? 'opacity-40 cursor-not-allowed' : 'active:scale-95'}`}
+            style="background: #142328;"
+          >
+            Uber Eats
+            {!hasUberEats && <span class="text-white/60 font-normal text-xs">· Brevemente</span>}
+          </a>
+        </div>
+        <p class="text-xs text-stone/60 text-center mt-1.5">Taxa de entrega definida pela plataforma</p>
       </div>
-      <p class="text-xs text-gray-400 text-center mt-1.5">
-        Taxa de entrega definida pela plataforma
-      </p>
-    </div>
 
-    <!-- Divisor -->
-    <div class="relative flex items-center gap-3">
-      <div class="flex-1 h-px bg-gray-100"></div>
-      <span class="text-xs text-gray-400 font-medium">ou</span>
-      <div class="flex-1 h-px bg-gray-100"></div>
-    </div>
+      <!-- Divisor -->
+      <div class="flex items-center gap-3">
+        <div class="flex-1 h-px bg-gray-100"></div>
+        <span class="text-xs text-stone/50 font-medium">ou</span>
+        <div class="flex-1 h-px bg-gray-100"></div>
+      </div>
 
-    <!-- ── Recolha no Local ── -->
-    <div>
-      <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-        🥡 Recolha no Local · <span class="font-normal normal-case">{takeawayTime}</span>
-      </p>
-      <button
-        onclick="openCart()"
-        class="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm text-white bg-brand-600 hover:bg-brand-500 active:scale-95 shadow-sm transition-all"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-        </svg>
-        Encomendar para Recolha
-      </button>
-      <p class="text-xs text-gray-400 text-center mt-1.5">
-        Encomenda via WhatsApp · Levanta no balcão
-      </p>
-    </div>
+      <!-- Recolha no local -->
+      <div>
+        <p class="text-xs text-stone mb-2 flex items-center gap-1.5">
+          <span>🥡</span>
+          <span class="font-medium text-ink">Recolha no Local</span>
+          <span class="text-stone/70">· {takeawayTime}</span>
+        </p>
+        <button
+          onclick="openCart()"
+          class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white transition-all active:scale-95"
+          style="background: #a86c20;"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+          </svg>
+          Encomendar para Recolha
+        </button>
+        <p class="text-xs text-stone/60 text-center mt-1.5">Via WhatsApp · Levanta no balcão</p>
+      </div>
 
+    </div>
   </div>
 </div>

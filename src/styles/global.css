@@ -1,5 +1,5 @@
 /* @import must come before @tailwind directives */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,7 +12,7 @@
   }
 
   body {
-    @apply bg-cream text-dark antialiased;
+    @apply bg-cream text-ink antialiased;
   }
 
   /* Prevent iOS zoom on inputs */
@@ -22,71 +22,58 @@
 }
 
 @layer components {
+  /* ── Dietary tags ── */
   .tag-badge {
     @apply inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full;
   }
+  .tag-vegan       { @apply bg-green-100 text-green-800; }
+  .tag-vegetariano { @apply bg-emerald-100 text-emerald-800; }
+  .tag-sem-gluten  { @apply bg-amber-100 text-amber-800; }
+  .tag-picante     { @apply bg-red-100 text-red-800; }
 
-  .tag-vegan {
-    @apply bg-green-100 text-green-800;
+  /* ── Group tabs (dark bar, level 1) ── */
+  .group-tab-label {
+    @apply text-xs font-sans font-medium tracking-wide;
   }
 
-  .tag-vegetariano {
-    @apply bg-emerald-100 text-emerald-800;
-  }
-
-  .tag-sem-gluten {
-    @apply bg-amber-100 text-amber-800;
-  }
-
-  .tag-picante {
-    @apply bg-red-100 text-red-800;
-  }
-
+  /* ── Sub-category tabs (cream bar, level 2) — underline style ── */
   .category-tab {
-    @apply whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer;
+    @apply whitespace-nowrap px-3 py-2 text-sm font-medium transition-all duration-150 cursor-pointer border-b-2 flex-shrink-0;
   }
-
   .category-tab-active {
-    @apply bg-brand-600 text-white shadow-sm;
+    @apply border-brand-500 text-ink font-semibold;
   }
-
   .category-tab-inactive {
-    @apply bg-white text-gray-600 border border-gray-200 hover:border-brand-400 hover:text-brand-700;
+    @apply border-transparent text-stone hover:text-ink hover:border-stone/50;
   }
 
-  /* Price badge — amber pill */
+  /* ── Price — refined text, no pill ── */
   .price-badge {
-    @apply inline-block bg-brand-600 text-white text-sm font-bold px-3 py-1 rounded-full leading-none whitespace-nowrap flex-shrink-0;
+    @apply inline-block text-brand-600 font-bold leading-none whitespace-nowrap flex-shrink-0;
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Menu card ── */
+  .menu-card {
+    transition: box-shadow 0.2s ease, transform 0.18s ease;
+  }
+  .menu-card:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.09);
+    transform: translateY(-1px);
   }
 }
 
-/* ── Sticky category bar shadow ── */
+/* ── Sticky category bar ── */
 .sticky-bar-shadow {
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.07), 0 3px 12px rgba(0,0,0,0.05);
 }
 
-/* ── Card hover lift ── */
-.menu-card {
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.menu-card:hover {
-  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
-  transform: translateY(-2px);
-}
-
-/* ── Section fade-in animation ── */
+/* ── Section fade-in ── */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
 .section-enter {
   animation: fadeInUp 0.28s ease forwards;
 }
