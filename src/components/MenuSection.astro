@@ -106,11 +106,21 @@ const currency = config.currency;
             )}
           </div>
 
-          <!-- Preço -->
-          <div class="flex-shrink-0 self-center">
+          <!-- Preço + adicionar ao pedido -->
+          <div class="flex-shrink-0 self-center flex flex-col items-end gap-1.5">
             <span class="price-badge">
               {currency}{item.price.toFixed(2)}
             </span>
+            {item.available && (
+              <button
+                class="w-8 h-8 rounded-full bg-brand-600 hover:bg-brand-500 active:scale-95 text-white font-bold text-xl flex items-center justify-center shadow-md transition-all"
+                data-cart-id={item.id}
+                data-cart-name={item.name}
+                data-cart-price={item.price.toString()}
+                onclick="addToCart(this.dataset.cartId, this.dataset.cartName, parseFloat(this.dataset.cartPrice))"
+                aria-label={`Adicionar ${item.name}`}
+              >+</button>
+            )}
           </div>
         </div>
       </div>

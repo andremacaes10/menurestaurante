@@ -1,58 +1,73 @@
 ---
 import { config } from '../../client.config';
-const { platforms, estimatedTime } = config.delivery;
+const { platforms, estimatedTime: deliveryTime } = config.delivery;
+const { estimatedTime: takeawayTime } = config.takeaway;
 const hasGlovo    = !!platforms.glovo;
 const hasUberEats = !!platforms.uberEats;
 ---
 
 <div class="bg-white border-b border-gray-100 px-4 py-4">
-  <div class="max-w-2xl mx-auto">
+  <div class="max-w-2xl mx-auto space-y-4">
 
-    <div class="flex items-center gap-2 mb-3">
-      <span class="text-base">🛵</span>
-      <span class="font-semibold text-dark text-sm">Entrega ao Domicílio</span>
-      <span class="text-gray-300">·</span>
-      <span class="text-xs text-gray-500">{estimatedTime}</span>
+    <!-- ── Entrega ao Domicílio ── -->
+    <div>
+      <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+        🛵 Entrega ao Domicílio · <span class="font-normal normal-case">{deliveryTime}</span>
+      </p>
+      <div class="flex gap-3">
+        <a
+          href={hasGlovo ? platforms.glovo : undefined}
+          target={hasGlovo ? '_blank' : undefined}
+          rel="noopener noreferrer"
+          class={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm text-white shadow-sm transition-all active:scale-95 ${!hasGlovo ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110'}`}
+          style="background: #00A082;"
+        >
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="10"/><text x="10" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#00A082">G</text></svg>
+          Glovo
+          {!hasGlovo && <span class="text-white/60 text-xs font-normal">· Brevemente</span>}
+        </a>
+        <a
+          href={hasUberEats ? platforms.uberEats : undefined}
+          target={hasUberEats ? '_blank' : undefined}
+          rel="noopener noreferrer"
+          class={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm text-white shadow-sm transition-all active:scale-95 ${!hasUberEats ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110'}`}
+          style="background: #142328;"
+        >
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="10"/><text x="10" y="14" text-anchor="middle" font-size="10" font-weight="bold" fill="#142328">U</text></svg>
+          Uber Eats
+          {!hasUberEats && <span class="text-white/60 text-xs font-normal">· Brevemente</span>}
+        </a>
+      </div>
+      <p class="text-xs text-gray-400 text-center mt-1.5">
+        Taxa de entrega definida pela plataforma
+      </p>
     </div>
 
-    <div class="flex gap-3">
-      <!-- Glovo -->
-      <a
-        href={hasGlovo ? platforms.glovo : undefined}
-        target={hasGlovo ? '_blank' : undefined}
-        rel="noopener noreferrer"
-        class={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm text-white shadow-sm transition-all active:scale-95 ${!hasGlovo ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110'}`}
-        style="background: #00A082;"
-        aria-disabled={!hasGlovo}
-      >
-        <!-- Glovo G -->
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 4a6 6 0 110 12A6 6 0 0112 6zm0 2a4 4 0 100 8 4 4 0 000-8zm1 1.5v2.793l1.854 1.853-1.061 1.061L11.5 12.914V9.5H13z"/>
-        </svg>
-        Glovo
-        {!hasGlovo && <span class="text-white/70 text-xs font-normal">· Brevemente</span>}
-      </a>
-
-      <!-- Uber Eats -->
-      <a
-        href={hasUberEats ? platforms.uberEats : undefined}
-        target={hasUberEats ? '_blank' : undefined}
-        rel="noopener noreferrer"
-        class={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm text-white shadow-sm transition-all active:scale-95 ${!hasUberEats ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-110'}`}
-        style="background: #142328;"
-        aria-disabled={!hasUberEats}
-      >
-        <!-- Uber Eats U -->
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
-        </svg>
-        Uber Eats
-        {!hasUberEats && <span class="text-white/70 text-xs font-normal">· Brevemente</span>}
-      </a>
+    <!-- Divisor -->
+    <div class="relative flex items-center gap-3">
+      <div class="flex-1 h-px bg-gray-100"></div>
+      <span class="text-xs text-gray-400 font-medium">ou</span>
+      <div class="flex-1 h-px bg-gray-100"></div>
     </div>
 
-    <p class="text-xs text-gray-400 text-center mt-2.5">
-      Taxa de entrega e tempo definidos pela plataforma
-    </p>
+    <!-- ── Recolha no Local ── -->
+    <div>
+      <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+        🥡 Recolha no Local · <span class="font-normal normal-case">{takeawayTime}</span>
+      </p>
+      <button
+        onclick="openCart()"
+        class="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm text-white bg-brand-600 hover:bg-brand-500 active:scale-95 shadow-sm transition-all"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+        Encomendar para Recolha
+      </button>
+      <p class="text-xs text-gray-400 text-center mt-1.5">
+        Encomenda via WhatsApp · Levanta no balcão
+      </p>
+    </div>
+
   </div>
 </div>

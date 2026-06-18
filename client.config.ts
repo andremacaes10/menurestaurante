@@ -8,7 +8,7 @@ export const config = {
   tagline: 'Food & Drinks • Vila do Conde',
   description: 'Snacks, francesinhas, mariscos, hambúrgueres e muito mais em Vila do Conde.',
 
-  // --- DELIVERY ---
+  // --- DELIVERY (plataformas externas) ---
   delivery: {
     enabled: true,
     estimatedTime: '30–45 min',
@@ -16,6 +16,14 @@ export const config = {
       glovo:    '', // URL da página no Glovo    ex: 'https://glovoapp.com/pt/pt/vila-do-conde/lip-food'
       uberEats: '', // URL da página no Uber Eats ex: 'https://www.ubereats.com/pt/store/lip-food'
     },
+  },
+
+  // --- TAKEAWAY (recolha no local via WhatsApp) ---
+  takeaway: {
+    enabled: true,
+    whatsapp: '', // Número WhatsApp para receber pedidos ex: '351912345678'
+    minOrder: 0,
+    estimatedTime: '15–20 min',
   },
 
   // --- CONTACTO ---
