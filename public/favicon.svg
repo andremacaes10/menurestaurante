@@ -1,4 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#C9A96E"/>
-  <text x="32" y="46" font-family="Georgia, serif" font-size="38" font-weight="600" fill="white" text-anchor="middle">L</text>
+  <defs>
+    <linearGradient id="copper" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D08050"/>
+      <stop offset="100%" stop-color="#8C3E18"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" fill="url(#copper)"/>
+  <text x="32" y="26" font-family="Georgia,serif" font-size="17" font-weight="400" fill="white" text-anchor="middle" letter-spacing="4">LI</text>
+  <line x1="18" y1="31" x2="46" y2="31" stroke="white" stroke-width="0.6" opacity="0.5"/>
+  <text x="32" y="47" font-family="Georgia,serif" font-size="17" font-weight="400" fill="white" text-anchor="middle" letter-spacing="2">P&#x2666;</text>
 </svg>
