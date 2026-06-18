@@ -1,0 +1,64 @@
+---
+import { config } from '../client.config';
+
+const popular = config.menu.items.filter((item) => item.popular).slice(0, 6);
+---
+
+<section id="menu" class="py-24 lg:py-36 bg-cream-dark">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+    <!-- Header -->
+    <div class="text-center mb-16 reveal">
+      <span class="section-label">O Que Não Pode Perder</span>
+      <h2 class="section-heading mb-4">Os Nossos Destaques</h2>
+      <div class="divider-gold mx-auto mb-6"></div>
+      <p class="text-gray-500 font-light max-w-md mx-auto">
+        Uma seleção do que os nossos clientes mais adoram. Petiscos, pratos e bebidas que fazem o Lip ser único.
+      </p>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cream-medium">
+      {popular.map((item, i) => (
+        <div class={`bg-cream p-8 lg:p-10 flex flex-col gap-4 group hover:bg-navy transition-colors duration-400 reveal reveal-delay-${(i % 3) + 1}`}>
+          <div class="flex items-start justify-between">
+            <span class="text-4xl">{item.emoji}</span>
+            <span class="font-serif text-2xl text-gold font-light">
+              {item.price.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })}
+            </span>
+          </div>
+
+          <div>
+            <div class="text-xs font-sans font-medium tracking-widest uppercase text-gold mb-2">
+              {item.category}
+            </div>
+            <h3 class="font-serif text-xl font-medium text-navy group-hover:text-white transition-colors duration-400 mb-2">
+              {item.name}
+            </h3>
+            <p class="text-gray-500 group-hover:text-white/60 text-sm font-light leading-relaxed transition-colors duration-400">
+              {item.description}
+            </p>
+          </div>
+
+          <a
+            href="/encomendas"
+            class="mt-auto text-xs font-medium tracking-widest uppercase text-gold hover:text-gold-light transition-colors flex items-center gap-2"
+          >
+            Encomendar
+            <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <!-- View full menu CTA -->
+    <div class="text-center mt-12 reveal">
+      <a href="/encomendas" class="btn-navy px-12 py-4">
+        Ver Menu Completo
+      </a>
+    </div>
+
+  </div>
+</section>

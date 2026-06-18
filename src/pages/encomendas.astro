@@ -1,0 +1,560 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { config } from '../client.config';
+
+const { categories, items } = config.menu;
+const whatsappNumber = config.contact.phoneRaw;
+---
+
+<Layout
+  title="Encomendas Online — Lip Food & Drinks"
+  description="Encomende os nossos petiscos e pratos para levantamento ou entrega. Escolha do menu e envie o seu pedido pelo WhatsApp."
+>
+  <Navbar />
+
+  <main class="min-h-screen bg-cream">
+
+    <!-- Page header -->
+    <div class="bg-navy pt-28 pb-16 lg:pt-36 lg:pb-20 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+      <div class="relative max-w-7xl mx-auto px-5 lg:px-8 text-center">
+        <span class="section-label">Levantamento & Entrega</span>
+        <h1 class="font-serif text-white text-4xl md:text-5xl lg:text-6xl font-light mb-4">
+          Encomende Online
+        </h1>
+        <div class="w-12 h-px bg-gold mx-auto mb-6"></div>
+        <p class="text-white/55 font-light max-w-md mx-auto">
+          Escolha os seus pratos favoritos e envie o pedido via WhatsApp. Preparamos e avisamos quando está pronto.
+        </p>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 py-12 lg:py-16">
+      <div class="flex flex-col lg:flex-row gap-10 lg:gap-12">
+
+        <!-- Menu column -->
+        <div class="flex-1 min-w-0">
+
+          <!-- Category tabs -->
+          <div class="flex gap-2 flex-wrap mb-8 sticky top-[72px] lg:top-20 z-20 bg-cream py-4 -mx-5 px-5 lg:-mx-0 lg:px-0 border-b border-cream-medium">
+            {categories.map((cat, i) => (
+              <button
+                class={`cat-tab font-sans text-xs font-medium tracking-wider uppercase px-5 py-2.5 border transition-colors duration-200 cursor-pointer ${i === 0 ? 'active' : 'border-navy/20 text-navy/60 hover:border-navy/40'}`}
+                data-cat={cat}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <!-- Menu sections -->
+          {categories.map((cat) => (
+            <div class="menu-section mb-12" data-section={cat}>
+              <h2 class="font-serif text-2xl text-navy mb-6 pb-3 border-b border-cream-medium">
+                {cat}
+              </h2>
+              <div class="grid sm:grid-cols-2 gap-3">
+                {items.filter(item => item.category === cat && item.available).map(item => (
+                  <div
+                    class="menu-item-card bg-white border border-cream-medium p-5 flex items-start gap-4 hover:border-gold/40 transition-colors duration-200"
+                    data-id={item.id}
+                    data-name={item.name}
+                    data-price={item.price}
+                    data-emoji={item.emoji}
+                    data-category={item.category}
+                  >
+                    <div class="text-3xl shrink-0 w-10 text-center">{item.emoji}</div>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-start justify-between gap-2 mb-1">
+                        <h3 class="font-serif text-navy font-medium text-base leading-tight">
+                          {item.name}
+                          {item.popular && (
+                            <span class="ml-2 text-[9px] font-sans font-medium tracking-widest uppercase bg-gold/15 text-gold-dark px-1.5 py-0.5 align-middle">
+                              Popular
+                            </span>
+                          )}
+                        </h3>
+                        <span class="font-serif text-gold font-medium text-base shrink-0">
+                          {item.price.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })}
+                        </span>
+                      </div>
+                      <p class="text-gray-400 text-xs font-light leading-relaxed mb-3">{item.description}</p>
+                      <!-- Quantity controls -->
+                      <div class="flex items-center gap-0">
+                        <button
+                          class="qty-remove hidden w-8 h-8 border border-navy/20 text-navy/60 hover:bg-navy hover:text-white hover:border-navy transition-colors duration-200 text-lg leading-none font-light"
+                          aria-label={`Remover ${item.name}`}
+                        >−</button>
+                        <span class="qty-display hidden w-10 text-center text-sm font-medium text-navy">0</span>
+                        <button
+                          class="qty-add w-8 h-8 border border-gold/50 text-gold hover:bg-gold hover:text-white hover:border-gold transition-colors duration-200 text-lg leading-none font-light"
+                          aria-label={`Adicionar ${item.name}`}
+                        >+</button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Cart sidebar (desktop) -->
+        <aside class="hidden lg:flex flex-col w-80 xl:w-96 shrink-0">
+          <div class="sticky top-[88px]">
+            <div id="cart-desktop" class="bg-white border border-cream-medium">
+              <div class="p-6 border-b border-cream-medium">
+                <h2 class="font-serif text-navy text-xl font-medium">O Seu Pedido</h2>
+              </div>
+
+              <!-- Cart items -->
+              <div id="cart-items-desktop" class="cart-scroll overflow-y-auto max-h-[340px] p-4 space-y-3">
+                <div id="cart-empty-desktop" class="py-10 text-center">
+                  <div class="text-4xl mb-3">🛒</div>
+                  <p class="text-gray-400 text-sm font-light">O seu carrinho está vazio</p>
+                  <p class="text-gray-300 text-xs mt-1">Adicione itens do menu</p>
+                </div>
+              </div>
+
+              <!-- Totals + checkout -->
+              <div id="cart-checkout-desktop" class="hidden p-5 border-t border-cream-medium space-y-4">
+                <div class="flex justify-between text-sm text-gray-500 font-light">
+                  <span>Subtotal</span>
+                  <span id="subtotal-desktop">€0.00</span>
+                </div>
+                <div class="flex justify-between font-serif text-navy text-lg">
+                  <span>Total</span>
+                  <span id="total-desktop" class="text-gold">€0.00</span>
+                </div>
+
+                <!-- Order type -->
+                <div>
+                  <label class="form-label">Tipo de pedido</label>
+                  <select id="order-type-desktop" class="w-full border border-cream-medium bg-white py-2.5 px-3 text-sm text-navy focus:border-gold focus:outline-none cursor-pointer">
+                    <option value="levantamento">🏃 Levantamento no local</option>
+                    <option value="entrega">🛵 Entrega (consultar disponibilidade)</option>
+                  </select>
+                </div>
+
+                <div id="address-field-desktop" class="hidden">
+                  <label class="form-label">Morada de entrega</label>
+                  <input
+                    id="address-input-desktop"
+                    type="text"
+                    placeholder="Rua, número, Caxinas..."
+                    class="form-input bg-white border border-cream-medium px-3 py-2.5 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label class="form-label">Nome</label>
+                  <input id="client-name-desktop" type="text" placeholder="O seu nome" class="form-input bg-white border border-cream-medium px-3 py-2.5 text-sm" />
+                </div>
+
+                <div>
+                  <label class="form-label">Telemóvel</label>
+                  <input id="client-phone-desktop" type="tel" placeholder="+351 9XX XXX XXX" class="form-input bg-white border border-cream-medium px-3 py-2.5 text-sm" />
+                </div>
+
+                <div>
+                  <label class="form-label">Notas (opcional)</label>
+                  <textarea id="client-notes-desktop" rows="2" placeholder="Sem cebola, alergia a..." class="form-input bg-white border border-cream-medium px-3 py-2.5 text-sm resize-none"></textarea>
+                </div>
+
+                <button
+                  id="whatsapp-order-desktop"
+                  class="w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3.5 text-xs font-medium tracking-widest uppercase transition-colors duration-300"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                  Encomendar via WhatsApp
+                </button>
+
+                <button
+                  id="clear-cart-desktop"
+                  class="w-full text-center text-xs text-gray-300 hover:text-red-400 transition-colors py-1 font-light"
+                >
+                  Limpar carrinho
+                </button>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile floating cart button -->
+  <div id="mobile-cart-btn" class="fixed bottom-6 right-5 z-40 lg:hidden hidden">
+    <button
+      id="open-mobile-cart"
+      class="flex items-center gap-3 bg-navy shadow-2xl text-white px-5 py-3.5 active:scale-95 transition-transform"
+    >
+      <svg class="w-5 h-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
+      </svg>
+      <span class="font-sans text-sm font-medium">Ver Pedido</span>
+      <span id="cart-badge" class="bg-gold text-white text-xs font-bold w-5 h-5 flex items-center justify-center min-w-[20px]">0</span>
+    </button>
+  </div>
+
+  <!-- Mobile cart drawer -->
+  <div id="mobile-cart-overlay" class="fixed inset-0 z-50 hidden">
+    <!-- Backdrop -->
+    <div id="cart-backdrop" class="absolute inset-0 bg-navy-dark/60 backdrop-blur-sm cart-backdrop-enter"></div>
+    <!-- Drawer -->
+    <div id="cart-drawer" class="absolute bottom-0 left-0 right-0 bg-white cart-drawer-enter max-h-[90vh] flex flex-col">
+      <!-- Drawer header -->
+      <div class="flex items-center justify-between p-5 border-b border-cream-medium">
+        <h2 class="font-serif text-navy text-xl font-medium">O Seu Pedido</h2>
+        <button id="close-mobile-cart" class="w-8 h-8 flex items-center justify-center text-navy/40 hover:text-navy transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Cart items mobile -->
+      <div id="cart-items-mobile" class="cart-scroll overflow-y-auto flex-1 p-4 space-y-3">
+        <div id="cart-empty-mobile" class="py-10 text-center">
+          <div class="text-4xl mb-3">🛒</div>
+          <p class="text-gray-400 text-sm font-light">O seu carrinho está vazio</p>
+        </div>
+      </div>
+
+      <!-- Mobile checkout -->
+      <div id="cart-checkout-mobile" class="hidden border-t border-cream-medium p-4 space-y-3">
+        <div class="flex justify-between font-serif text-navy text-lg">
+          <span>Total</span>
+          <span id="total-mobile" class="text-gold">€0.00</span>
+        </div>
+        <select id="order-type-mobile" class="w-full border border-cream-medium bg-white py-2.5 px-3 text-sm text-navy focus:border-gold focus:outline-none cursor-pointer">
+          <option value="levantamento">🏃 Levantamento no local</option>
+          <option value="entrega">🛵 Entrega (consultar disponibilidade)</option>
+        </select>
+        <div id="address-field-mobile" class="hidden">
+          <input id="address-input-mobile" type="text" placeholder="Morada de entrega..." class="w-full border border-cream-medium px-3 py-2.5 text-sm focus:border-gold focus:outline-none" />
+        </div>
+        <input id="client-name-mobile" type="text" placeholder="O seu nome" class="w-full border border-cream-medium px-3 py-2.5 text-sm focus:border-gold focus:outline-none" />
+        <input id="client-phone-mobile" type="tel" placeholder="Telemóvel" class="w-full border border-cream-medium px-3 py-2.5 text-sm focus:border-gold focus:outline-none" />
+        <button
+          id="whatsapp-order-mobile"
+          class="w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-4 text-xs font-medium tracking-widest uppercase transition-colors"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Encomendar via WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <Footer />
+</Layout>
+
+<script define:vars={{ whatsappNumber }}>
+  // ============================================================
+  // CART STATE
+  // ============================================================
+  /** @type {Array<{id: number, name: string, price: number, emoji: string, category: string, qty: number}>} */
+  let cart = [];
+
+  function getTotal() {
+    return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  }
+
+  function getItemCount() {
+    return cart.reduce((sum, item) => sum + item.qty, 0);
+  }
+
+  function formatPrice(n) {
+    return n.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' });
+  }
+
+  // ============================================================
+  // RENDER HELPERS
+  // ============================================================
+  function renderCartItem(item, suffix) {
+    return `
+      <div class="flex items-center gap-3 py-2 border-b border-cream-medium last:border-0" data-cart-item="${item.id}">
+        <span class="text-xl">${item.emoji}</span>
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-medium text-navy truncate">${item.name}</div>
+          <div class="text-xs text-gray-400">${formatPrice(item.price)} cada</div>
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+          <button onclick="adjustQty(${item.id}, -1, '${suffix}')" class="w-6 h-6 border border-navy/20 text-navy/60 hover:bg-navy hover:text-white hover:border-navy text-sm transition-colors flex items-center justify-center">−</button>
+          <span class="w-6 text-center text-sm font-medium text-navy">${item.qty}</span>
+          <button onclick="adjustQty(${item.id}, 1, '${suffix}')" class="w-6 h-6 border border-gold/50 text-gold hover:bg-gold hover:text-white text-sm transition-colors flex items-center justify-center">+</button>
+        </div>
+        <div class="text-sm font-serif text-gold w-14 text-right">${formatPrice(item.price * item.qty)}</div>
+      </div>
+    `;
+  }
+
+  function renderCart(suffix) {
+    const itemsEl = document.getElementById(`cart-items-${suffix}`);
+    const emptyEl = document.getElementById(`cart-empty-${suffix}`);
+    const checkoutEl = document.getElementById(`cart-checkout-${suffix}`);
+    const totalEl = document.getElementById(`total-${suffix}`);
+    const subtotalEl = document.getElementById(`subtotal-${suffix}`);
+
+    if (!itemsEl) return;
+
+    if (cart.length === 0) {
+      emptyEl?.classList.remove('hidden');
+      checkoutEl?.classList.add('hidden');
+      if (itemsEl) {
+        // Clear non-empty items but keep empty state
+        const existingItems = itemsEl.querySelectorAll('[data-cart-item]');
+        existingItems.forEach(el => el.remove());
+      }
+      emptyEl?.classList.remove('hidden');
+      return;
+    }
+
+    emptyEl?.classList.add('hidden');
+    checkoutEl?.classList.remove('hidden');
+
+    // Remove old cart items
+    const existingItems = itemsEl.querySelectorAll('[data-cart-item]');
+    existingItems.forEach(el => el.remove());
+
+    // Add new
+    const fragment = document.createDocumentFragment();
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.innerHTML = renderCartItem(item, suffix);
+      fragment.appendChild(div.firstElementChild);
+    });
+    itemsEl.insertBefore(fragment, checkoutEl ? null : itemsEl.firstChild);
+
+    const total = getTotal();
+    if (totalEl) totalEl.textContent = formatPrice(total);
+    if (subtotalEl) subtotalEl.textContent = formatPrice(total);
+  }
+
+  function updateBadge() {
+    const badge = document.getElementById('cart-badge');
+    const mobileBtn = document.getElementById('mobile-cart-btn');
+    const count = getItemCount();
+    if (badge) badge.textContent = String(count);
+    if (mobileBtn) {
+      mobileBtn.classList.toggle('hidden', count === 0);
+    }
+  }
+
+  function updateMenuCards() {
+    document.querySelectorAll('.menu-item-card').forEach(card => {
+      const id = parseInt(card.dataset.id);
+      const item = cart.find(i => i.id === id);
+      const qtyDisplay = card.querySelector('.qty-display');
+      const qtyRemove = card.querySelector('.qty-remove');
+      const qtyAdd = card.querySelector('.qty-add');
+
+      if (item && item.qty > 0) {
+        qtyDisplay?.classList.remove('hidden');
+        qtyRemove?.classList.remove('hidden');
+        if (qtyDisplay) qtyDisplay.textContent = String(item.qty);
+      } else {
+        qtyDisplay?.classList.add('hidden');
+        qtyRemove?.classList.add('hidden');
+      }
+    });
+  }
+
+  // ============================================================
+  // CART MUTATIONS
+  // ============================================================
+  function addToCart(id, name, price, emoji, category) {
+    const existing = cart.find(i => i.id === id);
+    if (existing) {
+      existing.qty += 1;
+    } else {
+      cart.push({ id, name, price, emoji, category, qty: 1 });
+    }
+    syncCart();
+  }
+
+  function adjustQty(id, delta, suffix) {
+    const existing = cart.find(i => i.id === id);
+    if (!existing) return;
+    existing.qty = Math.max(0, existing.qty + delta);
+    if (existing.qty === 0) cart = cart.filter(i => i.id !== id);
+    syncCart();
+  }
+  window.adjustQty = adjustQty;
+
+  function clearCart() {
+    cart = [];
+    syncCart();
+  }
+  window.clearCart = clearCart;
+
+  function syncCart() {
+    renderCart('desktop');
+    renderCart('mobile');
+    updateBadge();
+    updateMenuCards();
+  }
+
+  // ============================================================
+  // WHATSAPP ORDER
+  // ============================================================
+  function buildWhatsAppMessage(suffix) {
+    const orderType = document.getElementById(`order-type-${suffix}`)?.value || 'levantamento';
+    const name = document.getElementById(`client-name-${suffix}`)?.value.trim() || '';
+    const phone = document.getElementById(`client-phone-${suffix}`)?.value.trim() || '';
+    const address = document.getElementById(`address-input-${suffix}`)?.value.trim() || '';
+    const notes = document.getElementById(`client-notes-${suffix}`)?.value?.trim() || '';
+
+    if (cart.length === 0) { alert('O carrinho está vazio!'); return null; }
+    if (!name) { alert('Por favor indique o seu nome.'); return null; }
+    if (!phone) { alert('Por favor indique o seu telemóvel.'); return null; }
+    if (orderType === 'entrega' && !address) { alert('Por favor indique a morada de entrega.'); return null; }
+
+    const lines = ['Olá! Gostaria de fazer um pedido 🛒', '', '*ITENS DO PEDIDO:*'];
+    cart.forEach(item => {
+      lines.push(`• ${item.emoji} ${item.name} x${item.qty} — ${formatPrice(item.price * item.qty)}`);
+    });
+    lines.push('');
+    lines.push(`💰 *Total: ${formatPrice(getTotal())}*`);
+    lines.push('');
+    lines.push(`👤 *Nome:* ${name}`);
+    lines.push(`📱 *Telemóvel:* ${phone}`);
+    lines.push(`📦 *Tipo:* ${orderType === 'levantamento' ? 'Levantamento no local' : `Entrega para: ${address}`}`);
+    if (notes) lines.push(`📝 *Notas:* ${notes}`);
+    lines.push('');
+    lines.push('Obrigado! 🙏');
+
+    return lines.join('\n');
+  }
+
+  function sendWhatsApp(suffix) {
+    const msg = buildWhatsAppMessage(suffix);
+    if (!msg) return;
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  // ============================================================
+  // CATEGORY TABS
+  // ============================================================
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(t => {
+        t.classList.remove('active');
+        t.classList.add('border-navy/20', 'text-navy/60');
+      });
+      tab.classList.add('active');
+      tab.classList.remove('border-navy/20', 'text-navy/60');
+
+      const cat = tab.dataset.cat;
+      const section = document.querySelector(`.menu-section[data-section="${cat}"]`);
+      if (section) {
+        const y = section.getBoundingClientRect().top + window.scrollY - 140;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Highlight tab on scroll
+  const sections = document.querySelectorAll('.menu-section');
+  const tabs = document.querySelectorAll('.cat-tab');
+
+  const sectionObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const cat = entry.target.dataset.section;
+          tabs.forEach(tab => {
+            const isActive = tab.dataset.cat === cat;
+            tab.classList.toggle('active', isActive);
+            tab.classList.toggle('border-navy/20', !isActive);
+            tab.classList.toggle('text-navy/60', !isActive);
+          });
+        }
+      });
+    },
+    { rootMargin: '-140px 0px -60% 0px' }
+  );
+
+  sections.forEach(s => sectionObserver.observe(s));
+
+  // ============================================================
+  // ADD TO CART — menu cards
+  // ============================================================
+  document.querySelectorAll('.menu-item-card').forEach(card => {
+    const id = parseInt(card.dataset.id);
+    const name = card.dataset.name;
+    const price = parseFloat(card.dataset.price);
+    const emoji = card.dataset.emoji;
+    const category = card.dataset.category;
+
+    card.querySelector('.qty-add')?.addEventListener('click', () => {
+      addToCart(id, name, price, emoji, category);
+    });
+
+    card.querySelector('.qty-remove')?.addEventListener('click', () => {
+      adjustQty(id, -1, 'desktop');
+    });
+  });
+
+  // ============================================================
+  // ORDER TYPE → show/hide address
+  // ============================================================
+  ['desktop', 'mobile'].forEach(suffix => {
+    const select = document.getElementById(`order-type-${suffix}`);
+    const addressField = document.getElementById(`address-field-${suffix}`);
+    select?.addEventListener('change', () => {
+      const isDelivery = select.value === 'entrega';
+      addressField?.classList.toggle('hidden', !isDelivery);
+    });
+
+    // WhatsApp button
+    const btn = document.getElementById(`whatsapp-order-${suffix}`);
+    btn?.addEventListener('click', () => sendWhatsApp(suffix));
+
+    // Clear cart (desktop only)
+    if (suffix === 'desktop') {
+      document.getElementById('clear-cart-desktop')?.addEventListener('click', clearCart);
+    }
+  });
+
+  // ============================================================
+  // MOBILE DRAWER
+  // ============================================================
+  const mobileCartOverlay = document.getElementById('mobile-cart-overlay');
+  const cartDrawer = document.getElementById('cart-drawer');
+  const cartBackdrop = document.getElementById('cart-backdrop');
+
+  function openMobileCart() {
+    mobileCartOverlay?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    // Restart animation
+    cartDrawer?.classList.remove('cart-drawer-enter');
+    void cartDrawer?.offsetWidth;
+    cartDrawer?.classList.add('cart-drawer-enter');
+  }
+
+  function closeMobileCart() {
+    cartDrawer?.classList.add('cart-drawer-exit');
+    setTimeout(() => {
+      mobileCartOverlay?.classList.add('hidden');
+      cartDrawer?.classList.remove('cart-drawer-exit', 'cart-drawer-enter');
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  document.getElementById('open-mobile-cart')?.addEventListener('click', openMobileCart);
+  document.getElementById('close-mobile-cart')?.addEventListener('click', closeMobileCart);
+  cartBackdrop?.addEventListener('click', closeMobileCart);
+
+  // Initial render
+  syncCart();
+</script>

@@ -1,0 +1,100 @@
+---
+import { config } from '../client.config';
+---
+
+<section id="sobre" class="py-24 lg:py-36 bg-cream">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+    <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+
+      <!-- Image side -->
+      <div class="relative reveal">
+        <div class="aspect-[4/5] overflow-hidden bg-navy-light">
+          <!-- Substitui por foto real do espaço -->
+          <img
+            src="/images/about.jpg"
+            alt="Interior do Lip Food & Drinks em Caxinas"
+            class="w-full h-full object-cover"
+            loading="lazy"
+            width="600"
+            height="750"
+          />
+          <!-- Placeholder gradient para quando não há foto -->
+          <div class="absolute inset-0 bg-gradient-to-br from-navy to-navy-light flex items-center justify-center" id="about-placeholder">
+            <span class="font-serif text-white/20 text-8xl">L</span>
+          </div>
+        </div>
+
+        <!-- Floating accent card -->
+        <div class="absolute -bottom-6 -right-6 lg:-right-8 bg-gold p-6 lg:p-8 shadow-xl">
+          <div class="text-white text-center">
+            <div class="font-serif text-4xl font-light leading-none">+3</div>
+            <div class="font-sans text-xs tracking-widest uppercase mt-1 opacity-80">anos</div>
+            <div class="font-sans text-xs tracking-widest uppercase opacity-80">de sabor</div>
+          </div>
+        </div>
+
+        <!-- Decorative border -->
+        <div class="absolute -top-4 -left-4 w-24 h-24 border border-gold/30 pointer-events-none"></div>
+      </div>
+
+      <!-- Text side -->
+      <div class="reveal reveal-delay-2">
+        <span class="section-label">O Nosso Espaço</span>
+        <h2 class="section-heading mb-6">
+          À Beira<br /><em class="text-gold not-italic">do Atlântico</em>
+        </h2>
+        <div class="divider-gold mb-8"></div>
+
+        <div class="space-y-5 text-gray-600 font-light leading-relaxed">
+          <p>
+            Na marginal de Caxinas, com o oceano como pano de fundo, o <strong class="text-navy font-medium">Lip Food & Drinks</strong> é o lugar onde o tempo abranda e o sabor conta.
+          </p>
+          <p>
+            Somos um bar de tapas e snacks onde os petiscos são frescos, as cervejas são geladas e a companhia é sempre boa. Um espaço descontraído para quem quer desfrutar da vida junto ao mar.
+          </p>
+          <p>
+            Da esplanada com vista para o oceano ao interior acolhedor, o Lip é o espaço perfeito para um almoço tranquilo, um convívio ao fim do dia ou simplesmente um café com vista para o Atlântico.
+          </p>
+        </div>
+
+        <!-- Features grid -->
+        <div class="grid grid-cols-2 gap-5 mt-10">
+          {config.features.map((f, i) => (
+            <div class={`reveal reveal-delay-${i + 1}`}>
+              <div class="text-gold mb-3" set:html={f.icon} />
+              <div class="font-serif text-navy text-lg font-medium mb-1">{f.title}</div>
+              <div class="text-gray-500 text-sm font-light leading-relaxed">{f.desc}</div>
+            </div>
+          ))}
+        </div>
+
+        <div class="flex gap-4 mt-10">
+          <a href="/#reservas" class="btn-navy px-8">Fazer Reserva</a>
+          <a href={config.social.instagram} target="_blank" rel="noopener" class="btn-ghost px-8">
+            Instagram
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // Hide about placeholder if real image loads
+  const img = document.querySelector('#sobre img') as HTMLImageElement;
+  const placeholder = document.getElementById('about-placeholder');
+  if (img && placeholder) {
+    if (img.complete && img.naturalWidth > 0) {
+      placeholder.style.display = 'none';
+    } else {
+      img.addEventListener('load', () => {
+        if (img.naturalWidth > 0) placeholder.style.display = 'none';
+      });
+      img.addEventListener('error', () => {
+        // Keep placeholder visible
+      });
+    }
+  }
+</script>

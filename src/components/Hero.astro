@@ -1,0 +1,72 @@
+---
+import { config } from '../client.config';
+---
+
+<section class="relative min-h-[100dvh] min-h-[100vh] flex items-center justify-center overflow-hidden">
+
+  <!-- Background: substitui pelo teu hero.jpg real -->
+  <div
+    class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style="background-image: url('/images/hero.jpg');"
+    aria-hidden="true"
+  >
+    <!-- Gradient overlay for when there's no image -->
+    <div class="absolute inset-0" style="background: linear-gradient(160deg, #071523 0%, #0D2137 35%, #1A3A5C 65%, #2A5C8A 100%);"></div>
+  </div>
+
+  <!-- Dark overlay to ensure text legibility over photo -->
+  <div class="absolute inset-0 bg-navy-dark/50" aria-hidden="true"></div>
+
+  <!-- Decorative wave bottom -->
+  <div class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none" aria-hidden="true">
+    <svg viewBox="0 0 1440 96" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full" preserveAspectRatio="none">
+      <path d="M0 96L60 85.3C120 75 240 53 360 48C480 43 600 53 720 58.7C840 64 960 64 1080 58.7C1200 53 1320 43 1380 37.3L1440 32V96H1380C1320 96 1200 96 1080 96C960 96 840 96 720 96C600 96 480 96 360 96C240 96 120 96 60 96H0Z" fill="#FAF8F5"/>
+    </svg>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-5xl mx-auto px-5 lg:px-8 text-center">
+    <div class="flex flex-col items-center gap-6">
+
+      <!-- Label -->
+      <div class="flex items-center gap-4">
+        <div class="h-px w-10 bg-gold/60"></div>
+        <span class="text-gold/90 text-xs font-sans font-medium tracking-[0.35em] uppercase">
+          Caxinas · Vila do Conde
+        </span>
+        <div class="h-px w-10 bg-gold/60"></div>
+      </div>
+
+      <!-- Main heading -->
+      <h1 class="font-serif text-white font-light leading-tight" style="font-size: clamp(3rem, 9vw, 6.5rem);">
+        <em class="not-italic">Mar,</em>
+        <br />
+        Sabor<span class="text-gold"> & </span>Boa Mesa
+      </h1>
+
+      <!-- Tagline -->
+      <p class="text-white/70 font-sans font-light text-base md:text-lg max-w-md leading-relaxed">
+        Petiscos frescos, cervejas geladas e a melhor vista do oceano Atlântico em Caxinas
+      </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-col sm:flex-row items-center gap-4 mt-4">
+        <a href="/#reservas" class="btn-primary px-10 py-4 text-xs">
+          Reservar Mesa
+        </a>
+        <a href="/encomendas" class="btn-outline-white px-10 py-4 text-xs">
+          Encomendar Online
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-28 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40">
+    <span class="font-sans text-[10px] tracking-widest uppercase">Descobrir</span>
+    <div class="w-px h-10 bg-white/30 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gold animate-bounce" style="animation-duration: 1.5s;"></div>
+    </div>
+  </div>
+</section>

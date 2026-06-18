@@ -1,0 +1,73 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { config } from '../client.config';
+---
+
+<Layout
+  title="Política de Privacidade — Lip Food & Drinks"
+  description="Política de privacidade do Lip Food & Drinks."
+  noindex={true}
+>
+  <Navbar />
+  <main class="pt-32 pb-24 min-h-screen bg-cream">
+    <div class="max-w-3xl mx-auto px-5 lg:px-8">
+      <h1 class="font-serif text-navy text-4xl font-light mb-2">Política de Privacidade</h1>
+      <div class="w-12 h-px bg-gold mb-8"></div>
+
+      <div class="prose prose-sm max-w-none text-gray-600 font-light leading-relaxed space-y-6">
+        <p class="text-sm text-gray-400">Última atualização: Junho 2026</p>
+
+        <h2 class="font-serif text-navy text-2xl font-light mt-8 mb-3">1. Responsável pelo Tratamento</h2>
+        <p>
+          <strong class="text-navy font-medium">{config.name}</strong><br />
+          {config.contact.address}, {config.contact.city}<br />
+          Email: {config.contact.email}<br />
+          Telemóvel: {config.contact.phone}
+        </p>
+
+        <h2 class="font-serif text-navy text-2xl font-light mt-8 mb-3">2. Dados Recolhidos</h2>
+        <p>
+          Através do formulário de reservas, recolhemos: nome, telemóvel e, opcionalmente, email e notas.
+          Estes dados são usados exclusivamente para confirmar a sua reserva e entrar em contacto.
+        </p>
+        <p>
+          Através do sistema de encomendas, os dados partilhados (nome, telemóvel, morada) são enviados
+          diretamente via WhatsApp e não são armazenados em nenhum servidor nosso.
+        </p>
+
+        <h2 class="font-serif text-navy text-2xl font-light mt-8 mb-3">3. Finalidade e Base Legal</h2>
+        <p>
+          Tratamos os seus dados com base no legítimo interesse para execução de um contrato (reserva ou encomenda).
+          Os dados não são partilhados com terceiros nem utilizados para fins de marketing sem o seu consentimento.
+        </p>
+
+        <h2 class="font-serif text-navy text-2xl font-light mt-8 mb-3">4. Conservação dos Dados</h2>
+        <p>
+          Os dados de reservas são conservados pelo período necessário à prestação do serviço e no máximo
+          por 12 meses, salvo obrigação legal.
+        </p>
+
+        <h2 class="font-serif text-navy text-2xl font-light mt-8 mb-3">5. Os Seus Direitos</h2>
+        <p>
+          Nos termos do RGPD, tem direito a: aceder, retificar, eliminar, limitar ou opor-se ao tratamento dos seus dados.
+          Para exercer estes direitos, contacte-nos em <a href={`mailto:${config.contact.email}`} class="text-gold">{config.contact.email}</a>.
+        </p>
+
+        <h2 class="font-serif text-navy text-2xl font-light mt-8 mb-3">6. Cookies</h2>
+        <p>
+          Este website não utiliza cookies de rastreamento ou publicidade. Não instalamos o Google Analytics
+          nem qualquer outro sistema de monitorização de utilizadores.
+        </p>
+
+        <h2 class="font-serif text-navy text-2xl font-light mt-8 mb-3">7. Reclamações</h2>
+        <p>
+          Tem o direito de apresentar reclamação à Comissão Nacional de Proteção de Dados (CNPD)
+          em <a href="https://www.cnpd.pt" target="_blank" rel="noopener" class="text-gold">www.cnpd.pt</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

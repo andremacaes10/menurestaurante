@@ -1,63 +1,123 @@
 ---
+import { config } from '../client.config';
 import '../styles/global.css';
-import { config } from '../../client.config';
 
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
+  noindex?: boolean;
 }
 
-const { title = config.seo.title, description = config.seo.description } = Astro.props;
-const canonicalUrl = Astro.url.href;
+const {
+  title = config.seo.title,
+  description = config.seo.description,
+  ogImage = config.seo.ogImage,
+  noindex = false,
+} = Astro.props;
 
-const schemaOrg = {
-  "@context": "https://schema.org",
-  "@type": "Restaurant",
-  "name": config.name,
-  "description": config.description,
-  "url": Astro.site?.toString() ?? canonicalUrl,
-  "telephone": config.contact.phone,
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": config.contact.address,
-    "addressLocality": config.contact.city,
-    "addressCountry": "PT"
+const canonicalUrl = Astro.url.href;
+const siteUrl = Astro.site ?? 'https://lipfooddrinks.pt';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: config.name,
+  description: config.description,
+  url: siteUrl,
+  telephone: config.contact.phone,
+  email: config.contact.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: config.contact.address,
+    addressLocality: 'Vila do Conde',
+    postalCode: config.contact.postalCode,
+    addressCountry: 'PT',
   },
-  "openingHoursSpecification": config.hours.map(h => ({
-    "@type": "OpeningHoursSpecification",
-    "description": `${h.days}: ${h.time}`
-  })),
-  "hasMenu": canonicalUrl,
-  "servesCuisine": "Portuguese",
-  "priceRange": "€€",
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: config.contact.latitude,
+    longitude: config.contact.longitude,
+  },
+  servesCuisine: ['Tapas', 'Snacks', 'Petiscos', 'Portuguesa'],
+  priceRange: '€€',
+  acceptsReservations: true,
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Monday', opens: '09:00', closes: '00:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Tuesday', opens: '09:00', closes: '00:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Thursday', opens: '09:00', closes: '00:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Friday', opens: '09:00', closes: '00:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '00:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Sunday', opens: '09:00', closes: '00:00' },
+  ],
+  sameAs: [config.social.instagram, config.social.facebook],
+};
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: config.name,
+  url: siteUrl,
+  logo: `${siteUrl}/images/logo.png`,
+  sameAs: [config.social.instagram, config.social.facebook],
 };
 ---
-
 <!doctype html>
 <html lang="pt">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#d4821e" />
-    <meta name="description" content={description} />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={config.images.hero} />
-    <meta property="og:locale" content="pt_PT" />
+    <meta name="theme-color" content="#0D2137" />
 
     <title>{title}</title>
-
-    <!-- Schema.org -->
-    <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
 
     <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:locale" content="pt_PT" />
+    <meta property="og:site_name" content={config.name} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
   </head>
   <body>
     <slot />
+
+    <script>
+      // Scroll reveal
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>

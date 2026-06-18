@@ -1,6 +1,4 @@
-/* @import must come before @tailwind directives */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
-
+/* Google Fonts carregadas via <link> no Layout.astro — sem @import aqui */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,72 +6,192 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    @apply bg-cream text-ink antialiased;
+    @apply font-sans bg-cream text-gray-900 antialiased;
   }
 
-  /* Prevent iOS zoom on inputs */
+  h1, h2, h3, h4, h5 {
+    @apply font-serif;
+  }
+
+  /* Prevent iOS form zoom */
   input, select, textarea {
     font-size: 16px;
   }
 }
 
 @layer components {
-  /* ── Dietary tags ── */
-  .tag-badge {
-    @apply inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full;
-  }
-  .tag-vegan       { @apply bg-green-100 text-green-800; }
-  .tag-vegetariano { @apply bg-emerald-100 text-emerald-800; }
-  .tag-sem-gluten  { @apply bg-amber-100 text-amber-800; }
-  .tag-picante     { @apply bg-red-100 text-red-800; }
-
-  /* ── Group tabs (dark bar, level 1) ── */
-  .group-tab-label {
-    @apply text-xs font-sans font-medium tracking-wide;
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-gold text-white px-8 py-3.5 text-xs font-medium tracking-widest uppercase transition-all duration-300 hover:bg-gold-dark active:scale-95;
   }
 
-  /* ── Sub-category tabs (cream bar, level 2) — underline style ── */
-  .category-tab {
-    @apply whitespace-nowrap px-3 py-2 text-sm font-medium transition-all duration-150 cursor-pointer border-b-2 flex-shrink-0;
-  }
-  .category-tab-active {
-    @apply border-brand-500 text-ink font-semibold;
-  }
-  .category-tab-inactive {
-    @apply border-transparent text-stone hover:text-ink hover:border-stone/50;
+  .btn-outline-white {
+    @apply inline-flex items-center justify-center gap-2 border border-white/50 text-white px-8 py-3.5 text-xs font-medium tracking-widest uppercase transition-all duration-300 hover:bg-white/10 active:scale-95;
   }
 
-  /* ── Price — refined text, no pill ── */
-  .price-badge {
-    @apply inline-block text-brand-600 font-bold leading-none whitespace-nowrap flex-shrink-0;
-    font-size: 0.9375rem;
-    font-variant-numeric: tabular-nums;
+  .btn-navy {
+    @apply inline-flex items-center justify-center gap-2 bg-navy text-white px-8 py-3.5 text-xs font-medium tracking-widest uppercase transition-all duration-300 hover:bg-navy-light active:scale-95;
   }
 
-  /* ── Menu card ── */
-  .menu-card {
-    transition: box-shadow 0.2s ease, transform 0.18s ease;
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 border border-navy/30 text-navy px-8 py-3.5 text-xs font-medium tracking-widest uppercase transition-all duration-300 hover:border-navy hover:bg-navy/5 active:scale-95;
   }
-  .menu-card:hover {
-    box-shadow: 0 6px 24px rgba(0,0,0,0.09);
-    transform: translateY(-1px);
+
+  .section-label {
+    @apply block text-gold text-xs font-sans font-medium tracking-[0.3em] uppercase mb-4;
+  }
+
+  .section-heading {
+    @apply font-serif text-4xl md:text-5xl lg:text-6xl font-light text-navy leading-tight;
+  }
+
+  .section-heading-white {
+    @apply font-serif text-4xl md:text-5xl lg:text-6xl font-light text-white leading-tight;
+  }
+
+  .divider-gold {
+    @apply w-12 h-px bg-gold;
+  }
+
+  .form-input {
+    @apply w-full border-b border-navy/20 bg-transparent py-3 text-sm text-navy placeholder:text-navy/40 focus:border-gold focus:outline-none transition-colors duration-300;
+  }
+
+  .form-label {
+    @apply block text-xs font-medium tracking-wider uppercase text-navy/60 mb-2;
   }
 }
 
-/* ── Sticky category bar ── */
-.sticky-bar-shadow {
-  box-shadow: 0 1px 0 rgba(0,0,0,0.07), 0 3px 12px rgba(0,0,0,0.05);
+/* Navbar scroll transition */
+#nav-header {
+  transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 
-/* ── Section fade-in ── */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+#nav-header[data-scrolled] {
+  background: rgba(250, 248, 245, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 30px rgba(13, 33, 55, 0.08);
 }
-.section-enter {
-  animation: fadeInUp 0.28s ease forwards;
+
+#nav-header .nav-text {
+  color: rgba(255, 255, 255, 0.92);
+  transition: color 0.3s ease;
+}
+
+#nav-header[data-scrolled] .nav-text {
+  color: #374151;
+}
+
+#nav-header .nav-link:hover,
+#nav-header[data-scrolled] .nav-link:hover {
+  color: #C9A96E;
+}
+
+#nav-header .logo-primary {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+#nav-header[data-scrolled] .logo-primary {
+  color: #0D2137;
+}
+
+#nav-header .logo-secondary {
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.3s ease;
+}
+
+#nav-header[data-scrolled] .logo-secondary {
+  color: #9CA3AF;
+}
+
+/* Gallery hover */
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+/* Cart animations */
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutRight {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+.cart-drawer-enter {
+  animation: slideInRight 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.cart-drawer-exit {
+  animation: slideOutRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.cart-backdrop-enter {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* Menu category tabs */
+.cat-tab.active {
+  background: #0D2137;
+  color: white;
+  border-color: #0D2137;
+}
+
+/* Item card add button */
+.qty-btn {
+  @apply w-8 h-8 flex items-center justify-center rounded-full transition-colors duration-200;
+}
+
+/* Cart badge pulse */
+@keyframes cartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+.cart-badge-pulse {
+  animation: cartPulse 0.3s ease;
+}
+
+/* Custom scrollbar for cart */
+.cart-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.cart-scroll::-webkit-scrollbar-track {
+  background: #EDE9E0;
+}
+.cart-scroll::-webkit-scrollbar-thumb {
+  background: #C9A96E;
+  border-radius: 2px;
 }

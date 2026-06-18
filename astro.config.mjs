@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
+  site: 'https://lipfooddrinks.pt',
   integrations: [tailwind()],
-  site: 'https://menu-restaurante.vercel.app',
+  output: 'static',
 });

@@ -1,32 +1,31 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  content: ['./src/**/*.{astro,html,js,jsx,md,ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        brand: {
-          50:  '#fdf8ee',
-          100: '#f9edcf',
-          200: '#f2d898',
-          300: '#e6bb5c',
-          400: '#d9a03a',
-          500: '#c48526',
-          600: '#a86c20',
-          700: '#8a541e',
-          800: '#71411c',
-          900: '#5d351a',
-          950: '#351a0a',
+        navy: {
+          DEFAULT: '#0D2137',
+          light: '#1A3A5C',
+          dark: '#071523',
         },
-        dark:  '#0c0a07',
-        ink:   '#1c1810',
-        cream: '#faf6ee',
-        sand:  '#f0ebe0',
-        stone: '#7a6e62',
+        gold: {
+          DEFAULT: '#C9A96E',
+          light: '#DFC49A',
+          dark: '#A68A4A',
+        },
+        cream: {
+          DEFAULT: '#FAF8F5',
+          dark: '#EDE9E0',
+          medium: '#E5DFD3',
+        },
       },
       fontFamily: {
-        sans:    ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Playfair Display', 'Georgia', 'serif'],
-        title:   ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        serif: ['"Cormorant Garant"', 'Georgia', 'serif'],
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+      },
+      letterSpacing: {
+        widest: '0.25em',
       },
     },
   },
