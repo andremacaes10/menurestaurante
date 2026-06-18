@@ -4,9 +4,9 @@
 
 export const config = {
   // --- IDENTIDADE ---
-  name: 'Clave de Sol',
-  tagline: 'Café & Restaurante • Since 1983',
-  description: 'Snacks, francesinhas, mariscos, hambúrgueres e muito mais. Desde 1983 com o mesmo sabor.',
+  name: 'Lip Food&Drinks',
+  tagline: 'Food & Drinks • Vila do Conde',
+  description: 'Snacks, francesinhas, mariscos, hambúrgueres e muito mais em Vila do Conde.',
 
   // --- CONTACTO ---
   contact: {
@@ -26,7 +26,7 @@ export const config = {
 
   // --- REDES SOCIAIS ---
   social: {
-    instagram: 'clave_de_sol_cafe',
+    instagram: 'lip_food.drinks',
     facebook: '',
     tripadvisor: '',
   },
@@ -1012,8 +1012,8 @@ export const config = {
 
   // --- SEO ---
   seo: {
-    title: 'Clave de Sol — Ementa Digital',
-    description: 'Consulta a nossa ementa completa. Snacks, francesinhas, mariscos, hambúrgueres e muito mais. Since 1983.',
+    title: 'Lip Food&Drinks — Ementa Digital',
+    description: 'Consulta a nossa ementa completa. Snacks, francesinhas, mariscos, hambúrgueres e muito mais em Vila do Conde.',
     ogImage: '/images/hero.jpg',
   },
 
