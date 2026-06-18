@@ -1,0 +1,76 @@
+---
+// Secção full-bleed de destaque da comida
+// Coloca uma foto impactante de um prato em: public/images/food-banner.jpg
+---
+
+<section class="relative h-[60vh] lg:h-[70vh] min-h-[400px] overflow-hidden">
+
+  <!-- Foto de fundo (substituir por foto real de um prato) -->
+  <div
+    class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[8s] hover:scale-105"
+    style="background-image: url('/images/food-banner.jpg');"
+    aria-hidden="true"
+  >
+    <!-- Fallback gradient quando não há foto -->
+    <div class="absolute inset-0" style="background: linear-gradient(135deg, #071523 0%, #0D2137 40%, #1A3A5C 70%, #2A5072 100%);"></div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-navy-dark/55" aria-hidden="true"></div>
+
+  <!-- Padrão decorativo -->
+  <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 28px 28px;" aria-hidden="true"></div>
+
+  <!-- Conteúdo -->
+  <div class="relative z-10 h-full flex items-center">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 w-full">
+      <div class="max-w-2xl">
+
+        <div class="flex items-center gap-4 mb-6">
+          <div class="h-px w-8 bg-gold/70"></div>
+          <span class="text-gold/90 text-xs font-sans font-medium tracking-[0.3em] uppercase">
+            Petiscos & Pratos
+          </span>
+        </div>
+
+        <h2 class="font-serif text-white font-light leading-tight mb-6" style="font-size: clamp(2.2rem, 5vw, 4rem);">
+          Sabores que ficam<br />
+          <em class="text-gold not-italic">na memória</em>
+        </h2>
+
+        <p class="text-white/60 font-light text-base leading-relaxed mb-10 max-w-md">
+          Ingredientes frescos, receitas com alma e o oceano Atlântico como pano de fundo. Cada prato conta uma história.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <a href="/encomendas" class="btn-primary px-10 py-4">
+            Ver Menu Completo
+          </a>
+          <a href="/#reservas" class="btn-outline-white px-10 py-4">
+            Reservar Mesa
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats strip na base -->
+  <div class="absolute bottom-0 left-0 right-0">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="grid grid-cols-3 divide-x divide-white/10 bg-navy-dark/70 backdrop-blur-sm">
+        {[
+          { value: '22+', label: 'Opções no Menu' },
+          { value: '4', label: 'Categorias' },
+          { value: '100%', label: 'Ingredientes Frescos' },
+        ].map(stat => (
+          <div class="py-4 px-5 lg:px-8 text-center">
+            <div class="font-serif text-gold text-xl lg:text-2xl font-light">{stat.value}</div>
+            <div class="text-white/40 text-[10px] font-sans tracking-widest uppercase mt-0.5">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+</section>
