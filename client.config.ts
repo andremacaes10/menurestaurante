@@ -11,11 +11,11 @@ export const config = {
   // --- DELIVERY ---
   delivery: {
     enabled: true,
-    whatsapp: '',        // Número WhatsApp para receber pedidos ex: '351912345678'
-    minOrder: 10.00,     // Valor mínimo de encomenda
-    fee: 2.00,           // Custo de entrega
     estimatedTime: '30–45 min',
-    zones: ['Vila do Conde'],
+    platforms: {
+      glovo:    '', // URL da página no Glovo    ex: 'https://glovoapp.com/pt/pt/vila-do-conde/lip-food'
+      uberEats: '', // URL da página no Uber Eats ex: 'https://www.ubereats.com/pt/store/lip-food'
+    },
   },
 
   // --- CONTACTO ---

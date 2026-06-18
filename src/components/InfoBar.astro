@@ -37,19 +37,13 @@ import { config } from '../../client.config';
       </a>
     )}
 
-    <!-- Delivery strip -->
+    <!-- Delivery badge -->
     {config.delivery.enabled && (
       <div class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
         <span class="flex items-center gap-1.5 text-xs font-semibold text-white bg-brand-600 px-2.5 py-1 rounded-full">
-          🛵 Delivery
+          🛵 Delivery disponível
         </span>
-        <span class="text-xs text-gray-500">
-          {config.delivery.estimatedTime}
-          &nbsp;·&nbsp;
-          Mínimo €{config.delivery.minOrder.toFixed(2)}
-          &nbsp;·&nbsp;
-          Entrega €{config.delivery.fee.toFixed(2)}
-        </span>
+        <span class="text-xs text-gray-500">{config.delivery.estimatedTime}</span>
       </div>
     )}
   </div>
