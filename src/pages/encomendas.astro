@@ -36,7 +36,16 @@ const whatsappNumber = config.contact.phoneRaw;
               <h2 class="font-serif text-2xl text-navy mb-4 pb-3 border-b border-cream-medium">{cat}</h2>
               <div class="divide-y divide-cream-medium border border-cream-medium bg-white">
                 {items.filter(item => item.category === cat && item.available).map(item => (
-                  <div class="menu-item-card flex items-stretch hover:bg-cream/40 transition-colors duration-150" data-id={item.id} data-name={item.name} data-price={item.price} data-emoji={item.emoji} data-category={item.category}>
+                  <div
+                    class="menu-item-card flex items-stretch hover:bg-cream/40 transition-colors duration-150 cursor-pointer"
+                    data-id={item.id}
+                    data-name={item.name}
+                    data-price={item.price}
+                    data-emoji={item.emoji}
+                    data-category={item.category}
+                    data-description={item.description}
+                    data-popular={item.popular ? 'true' : 'false'}
+                  >
                     <div class="flex-1 p-4 flex flex-col justify-between min-h-[110px]">
                       <div>
                         <div class="flex items-start gap-2 flex-wrap mb-1">
@@ -101,6 +110,8 @@ const whatsappNumber = config.contact.phoneRaw;
       </div>
     </div>
   </main>
+
+  <!-- Mobile cart button -->
   <div id="mobile-cart-btn" class="fixed bottom-6 right-5 z-40 lg:hidden hidden">
     <button id="open-mobile-cart" class="flex items-center gap-3 bg-navy shadow-2xl text-white px-5 py-3.5 active:scale-95 transition-transform">
       <svg class="w-5 h-5 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
@@ -108,6 +119,8 @@ const whatsappNumber = config.contact.phoneRaw;
       <span id="cart-badge" class="bg-gold text-white text-xs font-bold w-5 h-5 flex items-center justify-center min-w-[20px]">0</span>
     </button>
   </div>
+
+  <!-- Mobile cart drawer -->
   <div id="mobile-cart-overlay" class="fixed inset-0 z-50 hidden">
     <div id="cart-backdrop" class="absolute inset-0 bg-navy-dark/60 backdrop-blur-sm cart-backdrop-enter"></div>
     <div id="cart-drawer" class="absolute bottom-0 left-0 right-0 bg-white cart-drawer-enter max-h-[90vh] flex flex-col">
@@ -131,15 +144,120 @@ const whatsappNumber = config.contact.phoneRaw;
       </div>
     </div>
   </div>
+
+  <!-- Item detail modal -->
+  <div id="item-modal-overlay" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+    <div id="item-modal-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div id="item-modal" class="absolute bottom-0 left-0 right-0 sm:relative sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-w-lg sm:w-full bg-white sm:rounded-lg overflow-hidden shadow-2xl flex flex-col max-h-[92vh] sm:max-h-[80vh]">
+      <!-- Close button -->
+      <button id="item-modal-close" class="absolute top-3 left-3 z-10 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md text-navy hover:bg-white transition-colors" aria-label="Fechar">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <!-- Image -->
+      <div class="relative w-full h-56 sm:h-64 shrink-0 bg-cream-medium overflow-hidden">
+        <img id="modal-img" src="" alt="" class="w-full h-full object-cover" />
+        <div id="modal-img-fallback" class="hidden absolute inset-0 flex items-center justify-center text-7xl bg-cream-medium"></div>
+      </div>
+      <!-- Content -->
+      <div class="flex-1 overflow-y-auto p-5 sm:p-6">
+        <div class="flex items-start gap-2 mb-2">
+          <h2 id="modal-name" class="font-serif text-navy text-2xl font-light leading-tight flex-1"></h2>
+          <span id="modal-popular" class="hidden shrink-0 mt-1 text-[9px] font-sans font-semibold tracking-widest uppercase bg-gold/15 text-gold-dark px-1.5 py-0.5">Popular</span>
+        </div>
+        <p id="modal-description" class="text-gray-500 text-sm font-light leading-relaxed mb-4"></p>
+        <div class="text-gold font-serif text-2xl font-light" id="modal-price"></div>
+      </div>
+      <!-- Footer with qty + add -->
+      <div class="border-t border-cream-medium p-4 sm:p-5 flex items-center gap-4 bg-white shrink-0">
+        <div class="flex items-center gap-0 border border-cream-medium">
+          <button id="modal-qty-minus" class="w-10 h-10 text-navy/60 hover:bg-navy hover:text-white transition-colors text-lg flex items-center justify-center">−</button>
+          <span id="modal-qty" class="w-10 h-10 flex items-center justify-center text-navy font-semibold text-sm">0</span>
+          <button id="modal-qty-plus" class="w-10 h-10 text-navy/60 hover:bg-gold hover:text-white transition-colors text-lg flex items-center justify-center border-l border-cream-medium">+</button>
+        </div>
+        <button id="modal-add-btn" class="flex-1 bg-navy text-white py-3 text-xs font-sans font-medium tracking-widest uppercase hover:bg-navy/80 transition-colors">
+          Adicionar ao pedido
+        </button>
+      </div>
+    </div>
+  </div>
+
   <Footer />
 </Layout>
 
 <script define:vars={{ whatsappNumber }}>
   let cart = [];
+  let modalItem = null;
+  let modalQty = 1;
+
   function getTotal() { return cart.reduce((s,i)=>s+i.price*i.qty,0); }
   function getItemCount() { return cart.reduce((s,i)=>s+i.qty,0); }
   function fmt(n) { return n.toLocaleString('pt-PT',{style:'currency',currency:'EUR'}); }
 
+  // ── Modal ────────────────────────────────────────────────────────────────
+  function openModal(id, name, price, emoji, category, description, popular) {
+    modalItem = { id, name, price, emoji, category };
+    const existing = cart.find(i=>i.id===id);
+    modalQty = existing ? existing.qty : 1;
+
+    const overlay = document.getElementById('item-modal-overlay');
+    const modal = document.getElementById('item-modal');
+    const img = document.getElementById('modal-img');
+    const fallback = document.getElementById('modal-img-fallback');
+
+    document.getElementById('modal-name').textContent = name;
+    document.getElementById('modal-description').textContent = description;
+    document.getElementById('modal-price').textContent = fmt(price);
+    document.getElementById('modal-qty').textContent = String(modalQty);
+
+    const popEl = document.getElementById('modal-popular');
+    if (popular === 'true') { popEl.classList.remove('hidden'); } else { popEl.classList.add('hidden'); }
+
+    img.src = `/images/menu/${id}.jpg`;
+    img.alt = name;
+    img.classList.remove('hidden');
+    fallback.classList.add('hidden');
+    fallback.textContent = emoji;
+    img.onerror = () => { img.classList.add('hidden'); fallback.classList.remove('hidden'); };
+
+    updateModalBtn();
+    overlay.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => modal.classList.add('modal-open'));
+  }
+
+  function closeModal() {
+    const overlay = document.getElementById('item-modal-overlay');
+    const modal = document.getElementById('item-modal');
+    modal.classList.remove('modal-open');
+    setTimeout(() => { overlay.classList.add('hidden'); document.body.style.overflow = ''; modalItem = null; }, 250);
+  }
+
+  function updateModalBtn() {
+    const btn = document.getElementById('modal-add-btn');
+    if (!btn || !modalItem) return;
+    const price = modalItem.price * modalQty;
+    btn.textContent = `Adicionar ao pedido — ${fmt(price)}`;
+  }
+
+  document.getElementById('modal-qty-minus')?.addEventListener('click', () => {
+    if (modalQty > 1) { modalQty--; document.getElementById('modal-qty').textContent = String(modalQty); updateModalBtn(); }
+  });
+  document.getElementById('modal-qty-plus')?.addEventListener('click', () => {
+    modalQty++; document.getElementById('modal-qty').textContent = String(modalQty); updateModalBtn();
+  });
+  document.getElementById('modal-add-btn')?.addEventListener('click', () => {
+    if (!modalItem) return;
+    const { id, name, price, emoji, category } = modalItem;
+    const existing = cart.find(i=>i.id===id);
+    if (existing) { existing.qty = modalQty; } else { cart.push({ id, name, price, emoji, category, qty: modalQty }); }
+    syncCart();
+    closeModal();
+  });
+  document.getElementById('item-modal-close')?.addEventListener('click', closeModal);
+  document.getElementById('item-modal-backdrop')?.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ── Cart ─────────────────────────────────────────────────────────────────
   function renderCartItem(item, suffix) {
     return `<div class="flex items-center gap-3 py-2 border-b border-cream-medium last:border-0" data-cart-item="${item.id}">
       <span class="text-xl">${item.emoji}</span>
@@ -170,11 +288,7 @@ const whatsappNumber = config.contact.phoneRaw;
     checkoutEl?.classList.remove('hidden');
     itemsEl.querySelectorAll('[data-cart-item]').forEach(el=>el.remove());
     const frag = document.createDocumentFragment();
-    cart.forEach(item => {
-      const d = document.createElement('div');
-      d.innerHTML = renderCartItem(item, suffix);
-      frag.appendChild(d.firstElementChild);
-    });
+    cart.forEach(item => { const d=document.createElement('div'); d.innerHTML=renderCartItem(item,suffix); frag.appendChild(d.firstElementChild); });
     itemsEl.appendChild(frag);
     const total = getTotal();
     if (totalEl) totalEl.textContent = fmt(total);
@@ -256,6 +370,7 @@ const whatsappNumber = config.contact.phoneRaw;
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
+  // ── Event listeners ───────────────────────────────────────────────────────
   document.querySelectorAll('.cat-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.cat-tab').forEach(t => { t.classList.remove('active'); t.classList.add('border-navy/20','text-navy/60'); });
@@ -278,9 +393,25 @@ const whatsappNumber = config.contact.phoneRaw;
   document.querySelectorAll('.menu-section').forEach(s=>obs.observe(s));
 
   document.querySelectorAll('.menu-item-card').forEach(card => {
-    const id=parseInt(card.dataset.id), name=card.dataset.name, price=parseFloat(card.dataset.price), emoji=card.dataset.emoji, category=card.dataset.category;
-    card.querySelector('.qty-add')?.addEventListener('click',()=>addToCart(id,name,price,emoji,category));
-    card.querySelector('.qty-remove')?.addEventListener('click',()=>adjustQty(id,-1,'desktop'));
+    const id=parseInt(card.dataset.id), name=card.dataset.name, price=parseFloat(card.dataset.price),
+          emoji=card.dataset.emoji, category=card.dataset.category,
+          description=card.dataset.description, popular=card.dataset.popular;
+
+    // Quick add on + button
+    card.querySelector('.qty-add')?.addEventListener('click', e => {
+      e.stopPropagation();
+      addToCart(id, name, price, emoji, category);
+    });
+    // Remove on - button
+    card.querySelector('.qty-remove')?.addEventListener('click', e => {
+      e.stopPropagation();
+      adjustQty(id, -1, 'desktop');
+    });
+    // Open modal on card click (not on buttons)
+    card.addEventListener('click', e => {
+      if (e.target.closest('.qty-add') || e.target.closest('.qty-remove')) return;
+      openModal(id, name, price, emoji, category, description, popular);
+    });
   });
 
   ['desktop','mobile'].forEach(suffix => {
@@ -302,3 +433,33 @@ const whatsappNumber = config.contact.phoneRaw;
 
   syncCart();
 </script>
+
+<style>
+  #item-modal {
+    transform: translateY(100%);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (min-width: 640px) {
+    #item-modal {
+      transform: translate(-50%, calc(-50% + 20px));
+      opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+    }
+    #item-modal.modal-open {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+  }
+  #item-modal.modal-open {
+    transform: translateY(0);
+  }
+  #item-modal-overlay:not(.hidden) {
+    display: flex;
+    align-items: flex-end;
+  }
+  @media (min-width: 640px) {
+    #item-modal-overlay:not(.hidden) {
+      display: block;
+    }
+  }
+</style>
