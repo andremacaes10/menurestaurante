@@ -8,6 +8,16 @@ export const config = {
   tagline: 'Food & Drinks • Vila do Conde',
   description: 'Snacks, francesinhas, mariscos, hambúrgueres e muito mais em Vila do Conde.',
 
+  // --- DELIVERY ---
+  delivery: {
+    enabled: true,
+    whatsapp: '',        // Número WhatsApp para receber pedidos ex: '351912345678'
+    minOrder: 10.00,     // Valor mínimo de encomenda
+    fee: 2.00,           // Custo de entrega
+    estimatedTime: '30–45 min',
+    zones: ['Vila do Conde'],
+  },
+
   // --- CONTACTO ---
   contact: {
     phone: '+351 252 130 781',
