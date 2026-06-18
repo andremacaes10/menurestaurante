@@ -100,7 +100,7 @@
 }
 
 #nav-header[data-scrolled] .logo-primary {
-  color: #0D2137;
+  color: #355E3B;
 }
 
 #nav-header .logo-secondary {
@@ -164,9 +164,9 @@
 
 /* Menu category tabs */
 .cat-tab.active {
-  background: #0D2137;
+  background: #355E3B;
   color: white;
-  border-color: #0D2137;
+  border-color: #355E3B;
 }
 
 /* Item card add button */

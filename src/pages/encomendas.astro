@@ -148,7 +148,7 @@ const whatsappNumber = config.contact.phoneRaw;
   <!-- Item detail modal -->
   <div id="item-modal-overlay" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
     <div id="item-modal-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-    <div id="item-modal" class="absolute bottom-0 left-0 right-0 sm:relative sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-w-lg sm:w-full bg-white sm:rounded-lg overflow-hidden shadow-2xl flex flex-col max-h-[92vh] sm:max-h-[80vh]">
+    <div id="item-modal" class="absolute bottom-0 left-0 right-0 sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:max-w-lg sm:w-full bg-white sm:rounded-lg overflow-hidden shadow-2xl flex flex-col max-h-[92vh] sm:max-h-[80vh]">
       <!-- Close button -->
       <button id="item-modal-close" class="absolute top-3 left-3 z-10 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md text-navy hover:bg-white transition-colors" aria-label="Fechar">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -439,19 +439,19 @@ const whatsappNumber = config.contact.phoneRaw;
     transform: translateY(100%);
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  #item-modal.modal-open {
+    transform: translateY(0);
+  }
   @media (min-width: 640px) {
     #item-modal {
-      transform: translate(-50%, calc(-50% + 20px));
+      transform: translateY(16px);
       opacity: 0;
       transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
     }
     #item-modal.modal-open {
-      transform: translate(-50%, -50%);
+      transform: translateY(0);
       opacity: 1;
     }
-  }
-  #item-modal.modal-open {
-    transform: translateY(0);
   }
   #item-modal-overlay:not(.hidden) {
     display: flex;
@@ -459,7 +459,8 @@ const whatsappNumber = config.contact.phoneRaw;
   }
   @media (min-width: 640px) {
     #item-modal-overlay:not(.hidden) {
-      display: block;
+      align-items: center;
+      justify-content: center;
     }
   }
 </style>
