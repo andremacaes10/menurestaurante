@@ -25,11 +25,11 @@ import { config } from '../client.config';
       <!-- Desktop Nav -->
       <ul class="hidden lg:flex items-center gap-7 xl:gap-9">
         {[
-          { href: '/#sobre', label: 'O Espaço' },
           { href: '/#menu', label: 'Menu' },
+          { href: '/#sobre', label: 'O Espaço' },
           { href: '/#reservas', label: 'Reservas' },
-          { href: '/encomendas', label: 'Encomendas' },
           { href: '/#localizacao', label: 'Localização' },
+          { href: '/encomendas', label: 'Encomendas' },
         ].map((link) => (
           <li>
             <a
@@ -74,11 +74,11 @@ import { config } from '../client.config';
   <div id="mobile-nav" class="hidden lg:hidden bg-navy-dark/97 backdrop-blur-sm">
     <div class="max-w-7xl mx-auto px-5 py-6 flex flex-col">
       {[
-        { href: '/#sobre', label: 'O Espaço' },
         { href: '/#menu', label: 'Menu' },
+        { href: '/#sobre', label: 'O Espaço' },
         { href: '/#reservas', label: 'Reservas' },
-        { href: '/encomendas', label: 'Encomendas Online' },
         { href: '/#localizacao', label: 'Localização' },
+        { href: '/encomendas', label: 'Encomendas Online' },
       ].map((link) => (
         <a
           href={link.href}
