@@ -20,35 +20,52 @@ const popular = config.menu.items.filter((item) => item.popular).slice(0, 6);
     <!-- Cards grid -->
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cream-medium">
       {popular.map((item, i) => (
-        <div class={`bg-cream p-8 lg:p-10 flex flex-col gap-4 group hover:bg-navy transition-colors duration-400 reveal reveal-delay-${(i % 3) + 1}`}>
-          <div class="flex items-start justify-between">
-            <span class="text-4xl">{item.emoji}</span>
-            <span class="font-serif text-2xl text-gold font-light">
-              {item.price.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })}
-            </span>
-          </div>
+        <div class={`bg-cream flex flex-col group hover:bg-navy transition-colors duration-400 overflow-hidden reveal reveal-delay-${(i % 3) + 1}`}>
 
-          <div>
-            <div class="text-xs font-sans font-medium tracking-widest uppercase text-gold mb-2">
-              {item.category}
+          <!-- Product image -->
+          <div class="relative h-52 overflow-hidden bg-cream-medium shrink-0">
+            <img
+              src={`/images/menu/${item.id}.jpg`}
+              alt={item.name}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+            />
+            <div class="hidden absolute inset-0 items-center justify-center bg-cream-medium text-6xl" aria-hidden="true">
+              {item.emoji}
             </div>
-            <h3 class="font-serif text-xl font-medium text-navy group-hover:text-white transition-colors duration-400 mb-2">
-              {item.name}
-            </h3>
-            <p class="text-gray-500 group-hover:text-white/60 text-sm font-light leading-relaxed transition-colors duration-400">
-              {item.description}
-            </p>
           </div>
 
-          <a
-            href="/encomendas"
-            class="mt-auto text-xs font-medium tracking-widest uppercase text-gold hover:text-gold-light transition-colors flex items-center gap-2"
-          >
-            Encomendar
-            <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
-            </svg>
-          </a>
+          <!-- Content -->
+          <div class="p-8 lg:p-10 flex flex-col gap-4 flex-1">
+            <div class="flex items-center justify-between">
+              <div class="text-xs font-sans font-medium tracking-widest uppercase text-gold">
+                {item.category}
+              </div>
+              <span class="font-serif text-xl text-gold font-light">
+                {item.price.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })}
+              </span>
+            </div>
+
+            <div>
+              <h3 class="font-serif text-xl font-medium text-navy group-hover:text-white transition-colors duration-400 mb-2">
+                {item.name}
+              </h3>
+              <p class="text-gray-500 group-hover:text-white/60 text-sm font-light leading-relaxed transition-colors duration-400">
+                {item.description}
+              </p>
+            </div>
+
+            <a
+              href="/encomendas"
+              class="mt-auto text-xs font-medium tracking-widest uppercase text-gold hover:text-gold-light transition-colors flex items-center gap-2"
+            >
+              Encomendar
+              <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+              </svg>
+            </a>
+          </div>
         </div>
       ))}
     </div>
