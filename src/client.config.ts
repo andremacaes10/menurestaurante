@@ -15,7 +15,7 @@ export const config = {
     latitude: 41.3643896,
     longitude: -8.7605469,
     mapsEmbed:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d743.0!2d-8.7605469!3d41.3643896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDIxJzUxLjgiTiA4wrA0NSczOS44Ilc!5e0!3m2!1spt!2spt!4v1718700000000',
+      'https://maps.google.com/maps?q=Lip+Food+%26+Drinks,+Av.+Infante+Dom+Henrique,+680,+4480-670+Vila+do+Conde&output=embed&z=17',
   },
 
   social: {
